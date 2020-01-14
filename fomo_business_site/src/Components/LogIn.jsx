@@ -1,7 +1,7 @@
 import React from "react";
 import * as api from "./Api";
 import { navigate } from "@reach/router";
-
+import ErrorDisplay from "./ErrorDisplay";
 
 export default class LogIn extends React.Component{
 
