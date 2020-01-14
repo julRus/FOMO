@@ -5,6 +5,7 @@ export default function SettingsPage(props) {
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredFirstPassword, setFirstPassword] = useState("");
   const [enteredSecondPassword, setSecondPassword] = useState("");
+  const [enteredLocation, setLocation] = useState("");
 
   const handleTextChangeUsername = enteredText => {
     setEnteredUsername(enteredText);
@@ -20,6 +21,10 @@ export default function SettingsPage(props) {
   const patchUsername = () => {
     console.log(enteredUsername);
   };
+
+  const patchLocation = () => {
+    console.log(enteredLocation);
+  }
 
   const patchPassword = () => {
     if (enteredFirstPassword === enteredSecondPassword) {
