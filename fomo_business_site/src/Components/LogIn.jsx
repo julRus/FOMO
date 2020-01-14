@@ -25,14 +25,14 @@ export default class LogIn extends React.Component{
     api
     .logIn({username, password})
     .then(response => {
-      console.log(response)
-      this.setState({username: "", password: ""})
+      console.dir(response.details.username)
+      this.setState({username: "", password: "", err: null})
     navigate("/events")})
-    .catch(response => console.log(response))
+    .catch(response => this.setState({err: {msg :"Your username and password don't match"}}))
   }
 
   render() {
-    const {password, username} = this.state;
+    const {password, username, err} = this.state;
     return (
     <div className="container">
       <div className="logInContainer">
@@ -51,8 +51,11 @@ export default class LogIn extends React.Component{
             <input type="password" placeholder="Password" className="regInput" onChange={this.handleChange} name="password"
               value={password} required />
           <br />
+          <p>{err && <ErrorDisplay error={err} />}</p>
+          <br/>
           <p className="regForget">Forgot your password?</p>
           <button type="submit" className="regButton">Sign In</button>
+          
         </form>
       </div>
     </div>
