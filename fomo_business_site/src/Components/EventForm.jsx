@@ -38,24 +38,37 @@ class EventForm extends Component {
     date: "",
     time: "",
     min_age: "",
-    cost: ""
+    cost: "",
+    url: ""
   };
 
   handleChange = event => {
     const { name } = event.target;
-    this.setState({ [name]: event.target.value });
+    if (name === "url") {
+    const realPath = event.target.value.replace("C:\\fakepath\\", "");
+     this.setState({ url: realPath }); 
+    } else {
+    this.setState({ [name]: event.target.value });  
+    }
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    const {  name,
-    location,
-    description,
-    event_type,
-    date,
-    time,
-    min_age,
-    cost } = this.state;
+    const {
+      name,
+      location,
+      description,
+      event_type,
+      date,
+      time,
+      min_age,
+      cost,
+      city,
+      number,
+      street,
+      postcode,
+      buidingname
+    } = this.state;
     this.setState({
       name: "",
       location: "",
@@ -69,8 +82,8 @@ class EventForm extends Component {
       number: "",
       street: "",
       postcode: "",
-      buidingname: ""
-
+      buidingname: "",
+      url: ""
     });
     // api
     //   .postArticle(title, body, this.props.user, topic)
@@ -176,6 +189,16 @@ class EventForm extends Component {
               placeholder="Description"
               name="description"
               value={this.state.description}
+              onChange={this.handleChange}
+            />
+          </label>
+          <label>
+            Select an image:
+            <input
+              type="file"
+              placeholder="url"
+              name="url"
+              value={this.state.url}
               onChange={this.handleChange}
             />
           </label>
