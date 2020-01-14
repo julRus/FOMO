@@ -16,10 +16,10 @@ import FamilyFriendlyPage from "./FamilyFriendlyPage";
 let items = [];
 
 export default function Quiz(props) {
+  const { navigator } = props.navigation.state.params;
+
   const [interests, setInterests] = useState([]);
   const [keywords, setKeywords] = useState(items);
-  // const [viewConfirmPage, setViewConfirmPage] = useState(false);
-  // const [viewFamilyFriendlyPage, setViewFamilyFriendlyPage] = useState(false);
   const [familyFriendly, setFamilyFriendly] = useState();
 
   useEffect(() => {
@@ -27,7 +27,6 @@ export default function Quiz(props) {
   });
 
   function handleInterestPress(item) {
-    console.log("test", props);
     interests.map(interest => {
       if (interest.key === item && interest.opacity === 1 && items.length < 4) {
         items = [...items, item];

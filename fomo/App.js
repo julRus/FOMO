@@ -8,6 +8,7 @@ import SignUp from "./Screens/SignUp";
 import MainPage from "./Screens/MainPage";
 import Event from "./Screens/Event";
 import Quiz from "./Screens/Components/Quiz";
+import ConfirmInterests from "./Screens/Components/ConfirmInterests";
 // import MyMap from "./Screens/MyMap";
 
 class Home extends React.Component {
@@ -34,6 +35,7 @@ const RootStack = createStackNavigator({
   Home: Home,
   SignUp: SignUp,
   Quiz: Quiz,
+  Confirm: ConfirmInterests,
   MainPage: MainPage,
   Event: Event
   // MyMap: MyMap

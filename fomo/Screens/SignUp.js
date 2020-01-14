@@ -58,14 +58,15 @@ export default function SignUpScreen(props) {
     if (enteredPassword !== enteredConfirmPassword) {
       console.log("Password mismatch");
     } else {
-      props.navigator("Quiz", {
+      navigator("Quiz", {
         enteredUsername,
         enteredEmail,
         enteredPassword,
         enteredConfirmPassword,
         enteredLocation,
         pickedAge,
-        PickedGender
+        pickedGender,
+        navigator
       });
 
       // axios
@@ -99,11 +100,6 @@ export default function SignUpScreen(props) {
         }}
         source={require("../assets/bg.jpg")}
       >
-        {/* <Quiz
-          // view={viewModal}
-          sendInterests={submitNewUser}
-          // setModalView={setViewModal}
-        /> */}
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
             <Text style={styles.logo}>FOMO</Text>
