@@ -9,6 +9,12 @@ import {
 } from "react-native";
 
 export default function FamilyFriendlyPage(props) {
+  function returnInfo(bool) {
+    console.log(props);
+    props.returnInforamation(props.keywords, bool);
+    props.confirm(bool);
+  }
+
   return (
     <Modal style={styles.container} visible={props.view} animationType="fade">
       <Text style={styles.background}></Text>
@@ -21,15 +27,11 @@ export default function FamilyFriendlyPage(props) {
             <Button
               title="Yes"
               color="hotpink"
-              onPress={() => props.confirm("<")}
+              onPress={() => returnInfo(true)}
             />
           </View>
           <View style={styles.button}>
-            <Button
-              title="No"
-              color="grey"
-              onPress={() => props.confirm(">")}
-            />
+            <Button title="No" color="grey" onPress={() => returnInfo(false)} />
           </View>
         </View>
       </TouchableOpacity>

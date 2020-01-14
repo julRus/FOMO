@@ -56,18 +56,6 @@ export default function MyMap(props) {
   //         );
   //       })}
   //     </View>
-  //     {/* <Marker
-  //       style={styles.container}
-  //       title="FED HOUSE"
-  //       description="12 Dec"
-  //       coordinate={{ latitude: 53.48627, longitude: -2.24012 }}
-  //     ></Marker>
-  //     <Marker
-  //       style={styles.container}
-  //       title="FED HOUSE"
-  //       description="12 Dec"
-  //       coordinate={{ latitude: 53.68627, longitude: -2.24012 }}
-  //     ></Marker> */}
   //   </MapView>
   // </View>
 }

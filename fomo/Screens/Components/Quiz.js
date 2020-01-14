@@ -16,10 +16,10 @@ import FamilyFriendlyPage from "./FamilyFriendlyPage";
 let items = [];
 
 export default function Quiz(props) {
-  const { navigator } = props.navigation.state.params;
-
   const [interests, setInterests] = useState([]);
   const [keywords, setKeywords] = useState(items);
+  const [viewConfirmPage, setViewConfirmPage] = useState(false);
+  const [viewFamilyFriendlyPage, setViewFamilyFriendlyPage] = useState(false);
   const [familyFriendly, setFamilyFriendly] = useState();
 
   useEffect(() => {
@@ -59,13 +59,13 @@ export default function Quiz(props) {
   }
 
   function navToMainPage(ageRange) {
-    setFamilyFriendly(ageRange);
     setViewConfirmPage(false);
     setViewFamilyFriendlyPage(false);
     props.setModalView(false);
+
     props.navigator("MainPage", {
+      ageRange,
       keywords,
-      familyFriendly,
       navigator: props.navigator
     });
     // this function for final axios post for user creation
@@ -109,6 +109,8 @@ export default function Quiz(props) {
         <FamilyFriendlyPage
           view={viewFamilyFriendlyPage}
           confirm={navToMainPage}
+          returnInforamation={props.returnInforamation}
+          keywords={keywords}
         />
       </Modal>
     </View>

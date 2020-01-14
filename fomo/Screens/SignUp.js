@@ -7,13 +7,16 @@ import {
   ImageBackground,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import axios from "axios";
+import Quiz from "./Components/Quiz";
 
 export default function SignUpScreen(props) {
   const { navigator } = props.navigation.state.params;
 
+  const [viewModal, setViewModal] = useState(false);
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -21,6 +24,8 @@ export default function SignUpScreen(props) {
   const [enteredLocation, setEnteredLocation] = useState("");
   const [pickedAge, setPickedAge] = useState("");
   const [pickedGender, setPickedGender] = useState("");
+  const [keywords, setKeywords] = useState([]);
+  const [famFriendly, setFamFriendly] = useState(false);
 
   const handleSetUsername = enteredText => {
     setEnteredUsername(enteredText);
@@ -50,25 +55,35 @@ export default function SignUpScreen(props) {
     setPickedGender(enteredText);
   };
 
-  // const setModalView = () => {
-  //   setViewModal(false);
-  // };
+  const setModalView = () => {
+    setViewModal(false);
+  };
+
+  const setModalInformation = (kwords, familyFreindlyBool) => {
+    if (kwords) {
+      setKeywords(kwords);
+      setFamFriendly(familyFreindlyBool);
+      axios.post("https://fomo-api.herokuapp.com/register", {
+        username: enteredUsername,
+        password: enteredPassword,
+        email: enteredEmail,
+        location: enteredLocation,
+        age: pickedAge,
+        gender: pickedGender,
+        option_1: keywords[0],
+        option_2: keywords[1],
+        option_3: keywords[2],
+        option_4: keywords[3],
+        family: famFriendly
+      });
+    }
+  };
 
   const submitNewUser = () => {
     if (enteredPassword !== enteredConfirmPassword) {
       console.log("Password mismatch");
     } else {
-      navigator("Quiz", {
-        enteredUsername,
-        enteredEmail,
-        enteredPassword,
-        enteredConfirmPassword,
-        enteredLocation,
-        pickedAge,
-        pickedGender,
-        navigator
-      });
-
+      setViewModal(true);
       // axios
       //   .post("https://fomo-api.herokuapp.com/register", {
       //     username: enteredUsername,
@@ -92,13 +107,24 @@ export default function SignUpScreen(props) {
   };
 
   return (
-    <View>
-      <ImageBackground
-        style={{
-          width: "100%",
-          height: "100%"
-        }}
-        source={require("../assets/bg.jpg")}
+    <ImageBackground
+      style={{
+        width: "100%",
+        height: "100%"
+      }}
+      source={require("../assets/bg.jpg")}
+    >
+      <Quiz
+        view={viewModal}
+        navigator={navigator}
+        setModalView={setViewModal}
+        returnInforamation={setModalInformation}
+      />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior="padding"
+        keyboardVerticalOffset={150}
+        enabled
       >
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
@@ -134,7 +160,7 @@ export default function SignUpScreen(props) {
             />
           </View>
           <View style={styles.viewContainer}>
-            <Text style={styles.subTitle}>PostCode</Text>
+            <Text style={styles.subTitle}>Extra Details</Text>
             <TextInput
               style={styles.textInput}
               placeholder="Choose a location"
@@ -178,14 +204,15 @@ export default function SignUpScreen(props) {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </ImageBackground>
-    </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   scrollView: {
     // backgroundColor: "orange"
+    paddingBottom: 100
   },
 
   viewContainer: {

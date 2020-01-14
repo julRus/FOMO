@@ -14,22 +14,28 @@ export default function EventList(props) {
   const [skiddleEvents, setSkiddleEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  api.fetchSkiddleEvents().then(data => {
-    const { keywords, ageRange } = props;
-    const { results } = data;
-    const eventsByKeywords = results.filter(event => {
-      if (
-        event.EventCode === keywords[0] ||
-        event.EventCode === keywords[1] ||
-        event.EventCode === keywords[2] ||
-        event.EventCode === keywords[3]
-      ) {
-        return event;
-      }
+  useEffect(() => {
+    api.fetchSkiddleEvents().then(data => {
+      const { keywords, ageRange, navigator } = props;
+      const { results } = data;
+      const eventsByKeywords = results.filter(event => {
+        if (keywords) {
+          if (
+            event.EventCode === keywords[0] ||
+            event.EventCode === keywords[1] ||
+            event.EventCode === keywords[2] ||
+            event.EventCode === keywords[3]
+          ) {
+            return event;
+          }
+        } else {
+          return event;
+        }
+      });
+      setSkiddleEvents(eventsByKeywords);
+      setIsLoading(false);
     });
-    setSkiddleEvents(eventsByKeywords);
-    setIsLoading(false);
-  });
+  }, []);
 
   // function viewMap() {
   //   props.navigator("MyMap", { skiddleEvents });

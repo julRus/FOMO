@@ -1,57 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import EventList from "./Components/EventList";
-import * as api from "../api";
 
 export default function MainPage(props) {
-  const { username, password } = props.navigation.state.params;
-  const [storedFamily, setFamily] = useState("");
-  const [storedOption_1, setOption_1] = useState("");
-  const [storedOption_2, setOption_2] = useState("");
-  const [storedOption_3, setOption_3] = useState("");
-  const [storedOption_4, setOption_4] = useState("");
-  const [storedLocation, setLocation] = useState("");
-
-  useEffect(() => {
-    api.fetchLoginToken(username, password).then(data => {
-      console.log("Token", data.access_token);
-      if (data.access_token) {
-        api
-          .fetchUserDetails(username)
-          .then(data => {
-            const {
-              family,
-              option_1,
-              option_2,
-              option_3,
-              option_4,
-              location
-            } = data;
-            setFamily(family);
-            setOption_1(option_1);
-            setOption_2(option_2);
-            setOption_3(option_3);
-            setOption_4(option_4);
-            setLocation(location);
-          })
-          .then(() => {
-            // console.log(
-            //   "Here",
-            //   storedFamily,
-            //   storedOption_1,
-            //   storedOption_2,
-            //   storedOption_3,
-            //   storedOption_4,
-            //   storedLocation
-            // );
-            api.fetchEventsByType(storedOption_1);
-          });
-      } else {
-        console.log("No access token");
-      }
-    });
-  }, []);
-
+  const { keywords, familyFriendly, navigator } = props.navigation.state.params;
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
@@ -62,11 +14,11 @@ export default function MainPage(props) {
         <Text style={styles.location}>Manchester</Text>
       </View> */}
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
-      {/* <EventList
+      <EventList
         keywords={keywords}
         ageRange={familyFriendly}
         navigator={navigator}
-      /> */}
+      />
       {/* <Event view={viewEvent} id={eventId} /> */}
     </View>
   );
