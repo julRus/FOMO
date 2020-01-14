@@ -5,6 +5,7 @@ import NavBar from "./Components/NavBar";
 import Events from "./Components/Events";
 import Home from "./Components/Home"
 import EventForm from "./Components/EventForm";
+import Dashboard from "./Components/Dashboard";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Home path="/" />
         <Events path="/events"/>
         <EventForm path="/events/newevent"/>
-        {/* <Feedback path="/Data" /> */}
+        <Dashboard path="/dashboard" />
         {/* <User path="/User" />  */}
       </Router>
     </div>
