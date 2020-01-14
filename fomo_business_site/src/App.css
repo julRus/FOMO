@@ -95,6 +95,7 @@ body {
 }
 
 .logInContainer {
+  visibility: visible;
   background-color: hsl(208, 100%, 97%, 0.3);
   position: fixed;
   left: 20%;
@@ -103,6 +104,7 @@ body {
 }
 
 .signUpContainer {
+  visibility: visible;
   background-color: aqua;
   position: fixed;
   margin: 5% 20%;
@@ -144,8 +146,39 @@ body {
   font-size: 70%;
 }
 
-/* .card {
-  background-image: url("./assets/card.jpg");
+.card {
+  background-color: #fff;
+         background: linear-gradient(#f8f8f8, #fff);
+         box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+         border-radius: 6px;
+         display: grid;
+         grid-template-columns: 200px 200px 300px 100px;
+         grid-auto-rows: 50px;
+         position: relative;
+         margin-top: 15rem;
+         margin: 1.5rem;
+         width: 900px;
+         margin-left: 30%    
+}
+.form {
+  margin-top: 300px;
+  margin-left: 300px;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 50%;
+}
+ button {
+  background-color: blue;
+  border: none;
+  color: white;
+  padding: 5px 22px;
+  text-align: center;
+  margin-top: 10px;
+  margin-left: 550px;
+  text-decoration: none;
   display: inline-block;
-  padding: 20% 20%;
-} */
+  font-size: 16px;
+  width: 50%;
+  height: 50%
+}
