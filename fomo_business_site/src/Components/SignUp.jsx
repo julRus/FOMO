@@ -1,5 +1,6 @@
 import React from "react";
-
+import * as api from "./Api";
+import { navigate } from "@reach/router";
 export default class LogIn extends React.Component {
   state = {
     username: "",
@@ -11,7 +12,8 @@ export default class LogIn extends React.Component {
     townCity: "",
     postCode: "",
     logo: "",
-    description: ""
+    description: "",
+    err: null
   };
 
   handleChange = event => {
@@ -30,10 +32,24 @@ export default class LogIn extends React.Component {
       townCity,
       postCode,
       logo,
-      description} = this.state
+      description, err} = this.state
     const business = {address: addressOne + " " + addressTwo + " " + townCity + " " + postCode}
 
-    console.log(businessName, business.address, description)
+    api
+    .register({business_name: businessName, username, password, email: businessEmail, address: business.address, description, url: logo})
+    .then(response => {
+      this.setState({username: "",
+    password: "",
+    businessName: "",
+    businessEmail: "",
+    addressOne: "",
+    addressTwo: "",
+    townCity: "",
+    postCode: "",
+    logo: "",
+    description: "", err: null})
+    navigate("/events")}).catch(response => this.setState({err:{msg: "You did something wrong! :("}}))
+    
   }
 
   render() {
