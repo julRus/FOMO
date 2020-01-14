@@ -55,19 +55,19 @@ export default function MainPage(props) {
   return (
     <View style={styles.container}>
       <View style={styles.header}></View>
-      {/* <View style={styles.subHeader}>
+      <View style={styles.subHeader}>
         <Text style={styles.settings}>settings</Text>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
-        {/* <Text style={styles.changeLocation}>Change</Text> }
+        <Text style={styles.changeLocation}>Change</Text>
         <Text style={styles.location}>Manchester</Text>
-      </View> */}
-      {/* <Text style={styles.eventsTitle}>Events</Text> */}
-      {/* <EventList
+      </View>
+      <Text style={styles.eventsTitle}>Events</Text>
+      <EventList
         keywords={keywords}
         ageRange={familyFriendly}
         navigator={navigator}
-      /> */}
-      {/* <Event view={viewEvent} id={eventId} /> */}
+      />
+      <Event view={viewEvent} id={eventId} />
     </View>
   );
 }
