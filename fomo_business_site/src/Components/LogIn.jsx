@@ -1,5 +1,6 @@
 import React from "react";
-
+import * as api from "./Api";
+import { navigate } from "@reach/router";
 
 
 export default class LogIn extends React.Component{
@@ -15,8 +16,19 @@ export default class LogIn extends React.Component{
     this.setState({[name] : value})
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
 
+    e.preventDefault()
+
+    const {username, password} = this.state
+
+    api
+    .logIn({username, password})
+    .then(response => {
+      console.log(response)
+      this.setState({username: "", password: ""})
+    navigate("/events")})
+    .catch(response => console.log(response))
   }
 
   render() {
@@ -24,7 +36,7 @@ export default class LogIn extends React.Component{
     return (
     <div className="container">
       <div className="logInContainer">
-        <form className="regForm" onSubmit={this.handleSubmit}>
+          <form className="regForm" onSubmit={this.handleSubmit}>
           <h2 className="regFormTitle">FOMO</h2>
             <input
               type="text"
