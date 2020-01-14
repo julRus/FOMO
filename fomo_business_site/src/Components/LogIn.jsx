@@ -17,7 +17,7 @@ export default class LogIn extends React.Component{
   }
 
   handleSubmit = e => {
-
+    const {getUser} = this.props
     e.preventDefault()
 
     const {username, password} = this.state
@@ -25,7 +25,7 @@ export default class LogIn extends React.Component{
     api
     .logIn({username, password})
     .then(response => {
-      console.dir(response.details.username)
+      getUser(response.details.username, response.details.business_id);
       this.setState({username: "", password: "", err: null})
     navigate("/events")})
     .catch(response => this.setState({err: {msg :"Your username and password don't match"}}))
