@@ -120,12 +120,7 @@ export default function SignUpScreen(props) {
         setModalView={setViewModal}
         returnInforamation={setModalInformation}
       />
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior="padding"
-        keyboardVerticalOffset={150}
-        enabled
-      >
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
             <Text style={styles.logo}>FOMO</Text>
