@@ -51,7 +51,7 @@ export default class LogIn extends React.Component{
             <input type="password" placeholder="Password" className="regInput" onChange={this.handleChange} name="password"
               value={password} required />
           <br />
-          <p>{err && <ErrorDisplay error={err} />}</p>
+          {err && <ErrorDisplay error={err} />}
           <br/>
           <p className="regForget">Forgot your password?</p>
           <button type="submit" className="regButton">Sign In</button>
