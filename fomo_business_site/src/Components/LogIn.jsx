@@ -1,27 +1,65 @@
 import React from "react";
+import * as api from "./Api";
+import { navigate } from "@reach/router";
+import ErrorDisplay from "./ErrorDisplay";
 
-export default function LogIn() {
-  return (
+export default class LogIn extends React.Component{
+
+  state = {
+    username: "",
+    password : "",
+    err: null
+  }
+
+  handleChange = event => {
+    const { name, value } = event.target
+    this.setState({[name] : value})
+  }
+
+  handleSubmit = e => {
+
+    e.preventDefault()
+
+    const {username, password} = this.state
+
+    api
+    .logIn({username, password})
+    .then(response => {
+      console.dir(response.details.username)
+      this.setState({username: "", password: "", err: null})
+    navigate("/events")})
+    .catch(response => this.setState({err: {msg :"Your username and password don't match"}}))
+  }
+
+  render() {
+    const {password, username, err} = this.state;
+    return (
     <div className="container">
       <div className="logInContainer">
-        <form className="regForm">
+          <form className="regForm" onSubmit={this.handleSubmit}>
           <h2 className="regFormTitle">FOMO</h2>
-          <label>
             <input
               type="text"
               placeholder="Username"
               className="regInput"
+              required
+              onChange={this.handleChange}
+              name="username"
+              value={username}
             />
-          </label>
           <br />
-          <label>
-            <input type="text" placeholder="Password" className="regInput" />
-          </label>
+            <input type="password" placeholder="Password" className="regInput" onChange={this.handleChange} name="password"
+              value={password} required />
           <br />
+          {err && <ErrorDisplay error={err} />}
+          <br/>
           <p className="regForget">Forgot your password?</p>
-          <button className="regButton">Sign In</button>
+          <button type="submit" className="regButton">Sign In</button>
+          
         </form>
       </div>
     </div>
   );
+  }
+  
 }
