@@ -5,8 +5,8 @@ export default function ErrorDisplay({ error }) {
 
   return (
     <>
-      <h2>{status}</h2>
-      <h2>{msg}</h2>
+      <p>{status}</p>
+      <p>{msg}</p>
     </>
   );
 }
