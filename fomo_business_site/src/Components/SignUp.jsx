@@ -4,9 +4,15 @@ export default function LogIn() {
   return (
     <div className="container">
       <div className="signUpContainer">
-        <h2 className="signUpTitle">New to FOMO business? Regster now</h2>
+        <h2 className="signUpTitle">New to FOMO business? Register now</h2>
 
         <form>
+          <label>
+            <input type="text" placeholder="Username" />
+          </label>
+          <label>
+            <input type="text" placeholder="Password" />
+          </label>
           <label>
             <input type="text" placeholder="Business Name" />
           </label>
@@ -15,7 +21,7 @@ export default function LogIn() {
             <input type="text" placeholder="Business Email" />
           </label>
           <br />
-          Adress <br />
+          Address <br />
           <label>
             <input type="number" placeholder="Number" />
           </label>

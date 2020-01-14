@@ -103,7 +103,6 @@ body {
 }
 
 .signUpContainer {
-  visibility: hidden;
   background-color: aqua;
   position: fixed;
   margin: 5% 20%;
