@@ -9,7 +9,6 @@ import EventForm from "./Components/EventForm";
 function App() {
   return (
     <div className="App">
-      
       <NavBar />
       <Router>
         <Home path="/" />
