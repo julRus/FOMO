@@ -21,7 +21,6 @@ class App extends React.Component {
 
   
   render () {
-    console.log(this.state.userId, this.state.currentUser)
     return (
     <div className="App">
       
