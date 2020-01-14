@@ -9,7 +9,7 @@ export default function LogIn() {
           <label>
             <input
               type="text"
-              placeholder="Business Name"
+              placeholder="Username"
               className="regInput"
             />
           </label>
