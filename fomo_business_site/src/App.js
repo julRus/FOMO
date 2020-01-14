@@ -5,6 +5,7 @@ import NavBar from "./Components/NavBar";
 import Events from "./Components/Events";
 import Home from "./Components/Home"
 import EventForm from "./Components/EventForm";
+import Dashboard from "./Components/Dashboard";
 
 class App extends React.Component {
   state = {
@@ -24,13 +25,12 @@ class App extends React.Component {
     console.log(this.state.userId, this.state.currentUser)
     return (
     <div className="App">
-      
       <NavBar />
       <Router>
         <Home path="/" getUser={this.getUser} />
         <Events path="/events"/>
         <EventForm path="/events/newevent"/>
-        {/* <Feedback path="/Data" /> */}
+        <Dashboard path="/dashboard" />
         {/* <User path="/User" />  */}
       </Router>
     </div>
