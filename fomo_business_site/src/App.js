@@ -7,6 +7,7 @@ import Home from "./Components/Home";
 import EventForm from "./Components/EventForm";
 import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";
+import Home from "./Components/Home"
 import Dashboard from "./Components/Dashboard";
 
 
@@ -60,6 +61,34 @@ class App extends React.Component {
           <Dashboard path="/dashboard" />
 
           {/* <Feedback path="/Data" /> */}
+=======
+    currentUser:"",
+    userId: null,
+    business_name: ""
+  }
+ 
+  componentDidMount () {
+    this.setState({ currentUser: "", userId: null });
+  }
+  getUser = (username, id, business_name) => {
+    this.setState({currentUser: username, userId: id, business_name: business_name})
+  }
+
+  
+  render () {
+    const {userId, business_name} = this.state
+    return (
+      <div className="App">
+        <NavBar />
+        <Router>
+          <Home path="/" getUser={this.getUser} />
+          <Events
+            path="/events"
+            userId={userId}
+            business_name={business_name}
+          />
+          {/* <EventForm path="/events/events" userId={userId} /> */}
+          <Dashboard path="/dashboard" />
           {/* <User path="/User" />  */}
         </Router>
       </div>

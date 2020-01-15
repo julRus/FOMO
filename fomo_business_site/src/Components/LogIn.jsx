@@ -10,6 +10,12 @@ export default class LogIn extends React.Component{
     password : "",
     businessName: "",
     err: null
+    err: null,
+    access_token: ""
+  }
+
+  componentDidUpdate() {
+    // this.handleSubmit(e)
   }
 
   handleChange = event => {
@@ -30,14 +36,22 @@ export default class LogIn extends React.Component{
       getUser(details.username, details.business_name, details.business_id, access_token);
       this.setState({username: "", password: "", err: null})
     navigate("/events")})
+    .then(response => {
+      getUser(response.details.username, response.details.business_id, response.details.business_name)
+      this.setState({username: response.details.username, password: "", err: null, access_token: response.access_token, business_name: response.details.business_name})
+      navigate("/events")})
     .catch(response => this.setState({err: {msg :"Your username and password don't match"}}))
   }
 
   render() {
-    const {password, username, err} = this.state;
+    const {password, username, err, access_token} = this.state;
+    let className="logInContainer"
+    if (access_token.length > 0) {
+      className = "disable-login";
+    }
     return (
     <div className="container">
-      <div className="logInContainer">
+      <div className={className}>
           <form className="regForm" onSubmit={this.handleSubmit}>
           <h2 className="regFormTitle">FOMO</h2>
             <input
