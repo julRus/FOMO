@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Dimensions,
+  ImageBackground,
   PermissionsAndroid,
   TouchableOpacity,
   TouchableHighlight,
@@ -17,15 +18,23 @@ export default function MyMap(props) {
   const events = skiddleEvents.slice(0, 1);
 
   return (
-    <View>
+    <ImageBackground
+      style={{
+        width: "100%",
+        height: "100%"
+      }}
+      source={require("../assets/bg.jpg")}
+      resizeMode="cover"
+      blurRadius={2}
+    >
       <View style={styles.mapContainer}>
-        <Button
+        {/* <Button
           onPress={() => {
-            // console.log("Start", events, "End");
-            Linking.openURL("https://google.com");
+            console.log("Start", events, "End");
+            // Linking.openURL("https://google.com");
           }}
           title="Press Me"
-        />
+        /> */}
         <MapView
           zoomEnabled={true}
           style={styles.map}
@@ -69,7 +78,12 @@ export default function MyMap(props) {
                       title="Press Me"
                     >
                       <TouchableOpacity>
-                        <Text style={styles.markerText}>{event.eventname}</Text>
+                        <View style={styles.markerBubble}>
+                          <Text style={styles.markerText}>
+                            {event.eventname}
+                          </Text>
+                          <Text style={styles.markerLink}>Go to page</Text>
+                        </View>
                       </TouchableOpacity>
                     </MapView.Callout>
                   </MapView.Marker>
@@ -79,18 +93,16 @@ export default function MyMap(props) {
           </View>
         </MapView>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   mapContainer: {
-    marginTop: "5%",
+    marginTop: "7%",
     alignSelf: "center",
-    height: "95%",
-    width: "90%",
-    backgroundColor: "rgba(25,25,25,1)"
-    // backgroundColor: "orange"
+    height: "98%",
+    width: "99%"
   },
 
   map: {
@@ -102,11 +114,23 @@ const styles = StyleSheet.create({
     width: "90%"
   },
 
-  markerText: {
-    flex: 1,
-    backgroundColor: "rgba(255,255,255,0.7)",
+  markerBubble: {
+    color: "white",
+    backgroundColor: "rgba(0,0,0,0.7)",
     padding: 10,
-    borderRadius: 200,
-    backgroundColor: "orange"
+    borderRadius: 20
+  },
+
+  markerText: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "white"
+  },
+
+  markerLink: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#1E90FF",
+    textDecorationLine: "underline"
   }
 });

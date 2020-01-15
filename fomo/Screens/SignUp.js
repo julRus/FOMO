@@ -98,13 +98,15 @@ export default function SignUpScreen(props) {
   };
 
   return (
-    <ImageBackground
-      style={{
-        width: "100%",
-        height: "100%"
-      }}
-      source={require("../assets/bg.jpg")}
-    >
+<ImageBackground
+          style={{
+            width: "100%",
+            height: "100%"
+          }}
+          source={require("../assets/bg.jpg")}
+          resizeMode="cover"
+          blurRadius={2}
+        >
       <Quiz view={viewModal} navigator={navigator} postUser={postUser} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <ScrollView style={styles.scrollView}>
