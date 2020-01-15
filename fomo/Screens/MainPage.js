@@ -1,73 +1,59 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import EventList from "./Components/EventList";
-import * as api from "../api";
 
 export default function MainPage(props) {
-  const { username, password } = props.navigation.state.params;
-  const [storedFamily, setFamily] = useState("");
-  const [storedOption_1, setOption_1] = useState("");
-  const [storedOption_2, setOption_2] = useState("");
-  const [storedOption_3, setOption_3] = useState("");
-  const [storedOption_4, setOption_4] = useState("");
-  const [storedLocation, setLocation] = useState("");
+  const {
+    keywords,
+    navigator,
+    enteredUsername,
+    enteredLocation,
+    pickedAge,
+    pickedGender
+  } = props.navigation.state.params;
 
-  useEffect(() => {
-    api.fetchLoginToken(username, password).then(data => {
-      console.log("Token", data.access_token);
-      if (data.access_token) {
-        api
-          .fetchUserDetails(username)
-          .then(data => {
-            const {
-              family,
-              option_1,
-              option_2,
-              option_3,
-              option_4,
-              location
-            } = data;
-            setFamily(family);
-            setOption_1(option_1);
-            setOption_2(option_2);
-            setOption_3(option_3);
-            setOption_4(option_4);
-            setLocation(location);
-          })
-          .then(() => {
-            // console.log(
-            //   "Here",
-            //   storedFamily,
-            //   storedOption_1,
-            //   storedOption_2,
-            //   storedOption_3,
-            //   storedOption_4,
-            //   storedLocation
-            // );
-            api.fetchEventsByType(storedOption_1);
-          });
-      } else {
-        console.log("No access token");
-      }
-    });
-  }, []);
+  // console.log(props.navigation.state.params);
+  // useEffect(() => {
+  //   api.fetchUserByUsername(user).then(data => {
+  //     setUserData(data);
+  //     console.log(userData);
+  //   });
+  // }, []);
+
+  function goToSettings() {
+    navigator("SettingsPage", { enteredUsername });
+  }
+
+  function goToMap(skiddleEvents) {
+    // console.log(skiddleEvents[0]);
+    navigator("MyMap", { skiddleEvents });
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+        <Text style={styles.title}>MAJOR EVENTS</Text>
+        <Text style={styles.underTitle}>Large Business Events</Text>
+      </View>
       {/* <View style={styles.subHeader}>
-        <Text style={styles.settings}>settings</Text>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
         {/* <Text style={styles.changeLocation}>Change</Text> }
         <Text style={styles.location}>Manchester</Text>
       </View> */}
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
-      {/* <EventList
-        keywords={keywords}
-        ageRange={familyFriendly}
+      <EventList
         navigator={navigator}
-      /> */}
-      {/* <Event view={viewEvent} id={eventId} /> */}
+        keywords={keywords}
+        enteredLocation={enteredLocation}
+        pickedAge={pickedAge}
+        pickedGender={pickedGender}
+        goToMap={goToMap}
+      />
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={goToSettings}>
+          <Text style={styles.settings}>settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -77,19 +63,39 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "black",
-    paddingBottom: 60
+    paddingBottom: 60,
+    marginTop: 20
   },
+
+  header: {
+    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    padding: 10
+  },
+
+  footer: {
+    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    marginTop: "152%",
+    width: "100%",
+    position: "absolute"
+  },
+
   settings: {
-    color: "white",
     marginHorizontal: 10
   },
 
   title: {
-    color: "white",
     fontSize: 30,
     opacity: 0.7,
-    textAlign: "center"
+    textAlign: "center",
+    borderColor: "black",
+    borderBottomWidth: 0.2
   },
+
+  underTitle: {
+    textAlign: "center",
+    opacity: 0.5
+  },
+
   date: {
     color: "white",
     borderWidth: 0.4,

@@ -7,6 +7,8 @@ import Home from "./Components/Home";
 import EventForm from "./Components/EventForm";
 import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";
+import Dashboard from "./Components/Dashboard";
+
 
 class App extends React.Component {
   state = {
@@ -55,12 +57,14 @@ class App extends React.Component {
             business_name={businessName}
             path={accessToken ? "business_account" : "/"}
           />
+          <Dashboard path="/dashboard" />
 
           {/* <Feedback path="/Data" /> */}
           {/* <User path="/User" />  */}
         </Router>
       </div>
     );
+
   }
 }
 

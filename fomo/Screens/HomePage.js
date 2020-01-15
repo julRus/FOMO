@@ -15,6 +15,7 @@ export default function HomeScreen(props) {
     username: "",
     password: ""
   });
+  const [keywords, setKeywords] = useState([]);
 
   const handleTextChangeUsername = enteredText => {
     setEnteredUsername(enteredText);

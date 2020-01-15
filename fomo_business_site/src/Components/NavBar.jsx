@@ -16,6 +16,7 @@ export default function NavBar({ logOut, access}) {
         <Link to="/events">
           <li className="Link">EVENTS</li>
         </Link>
+<<<<<<< HEAD
         
         <li className="Link">FEEDBACK</li>
         <Link to="/business_account">
@@ -23,6 +24,13 @@ export default function NavBar({ logOut, access}) {
         </Link>
         {access && <li className="Link" onClick={()=> {logOut()
         apiLog() }}>LOG OUT</li>}
+=======
+        <Link to="/dashboard">
+        <li className="Link">DASHBOARD</li>  
+        </Link>
+        
+        <li className="Link">USER</li>
+>>>>>>> a0905372951b3fe6f763de33eb57f87125b12023
       </ul>
     </div>
   );

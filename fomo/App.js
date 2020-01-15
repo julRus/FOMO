@@ -7,9 +7,8 @@ import HomeScreen from "./Screens/HomePage";
 import SignUp from "./Screens/SignUp";
 import MainPage from "./Screens/MainPage";
 import Event from "./Screens/Event";
-import Quiz from "./Screens/Components/Quiz";
-import ConfirmInterests from "./Screens/Components/ConfirmInterests";
-// import MyMap from "./Screens/MyMap";
+import SettingsPage from "./Screens/SettingsPage";
+import MyMap from "./Screens/MyMap";
 
 class Home extends React.Component {
   render() {
@@ -31,15 +30,17 @@ class Home extends React.Component {
   }
 }
 
-const RootStack = createStackNavigator({
-  Home: Home,
-  SignUp: SignUp,
-  Quiz: Quiz,
-  Confirm: ConfirmInterests,
-  MainPage: MainPage,
-  Event: Event
-  // MyMap: MyMap
-});
+const RootStack = createStackNavigator(
+  {
+    Home: Home,
+    SignUp: SignUp,
+    MainPage: MainPage,
+    Event: Event,
+    SettingsPage: SettingsPage,
+    MyMap: MyMap
+  },
+  { headerMode: "none" }
+);
 
 const AppContainer = createAppContainer(RootStack);
 

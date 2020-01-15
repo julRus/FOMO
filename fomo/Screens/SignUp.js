@@ -7,13 +7,16 @@ import {
   ImageBackground,
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import axios from "axios";
+import Quiz from "./Components/Quiz";
 
 export default function SignUpScreen(props) {
   const { navigator } = props.navigation.state.params;
 
+  const [viewModal, setViewModal] = useState(false);
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -50,38 +53,41 @@ export default function SignUpScreen(props) {
     setPickedGender(enteredText);
   };
 
-  // const setModalView = () => {
-  //   setViewModal(false);
-  // };
+  const postUser = keywords => {
+    if (keywords) {
+      setViewModal(false);
+      axios
+        .post("https://fomo-api.herokuapp.com/register", {
+          username: enteredUsername,
+          password: enteredPassword,
+          email: enteredEmail,
+          location: enteredLocation,
+          age: pickedAge,
+          gender: pickedGender,
+          option_1: keywords[0],
+          option_2: keywords[1],
+          option_3: keywords[2],
+          option_4: keywords[3]
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
+      navigator("MainPage", {
+        keywords,
+        navigator,
+        enteredUsername,
+        enteredLocation,
+        pickedAge,
+        pickedGender
+      });
+    }
+  };
 
   const submitNewUser = () => {
     if (enteredPassword !== enteredConfirmPassword) {
       console.log("Password mismatch");
     } else {
-      navigator("Quiz", {
-        enteredUsername,
-        enteredEmail,
-        enteredPassword,
-        enteredConfirmPassword,
-        enteredLocation,
-        pickedAge,
-        pickedGender,
-        navigator
-      });
-
-      // axios
-      //   .post("https://fomo-api.herokuapp.com/register", {
-      //     username: enteredUsername,
-      //     password: enteredPassword,
-      //     email: enteredEmail,
-      //     location: enteredLocation,
-      //     age: pickedAge,
-      //     gender: pickedGender
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     setViewModal(true);
-      //   });
+      setViewModal(true);
     }
   };
 
@@ -92,14 +98,17 @@ export default function SignUpScreen(props) {
   };
 
   return (
-    <View>
-      <ImageBackground
-        style={{
-          width: "100%",
-          height: "100%"
-        }}
-        source={require("../assets/bg.jpg")}
-      >
+<ImageBackground
+          style={{
+            width: "100%",
+            height: "100%"
+          }}
+          source={require("../assets/bg.jpg")}
+          resizeMode="cover"
+          blurRadius={2}
+        >
+      <Quiz view={viewModal} navigator={navigator} postUser={postUser} />
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
             <Text style={styles.logo}>FOMO</Text>
@@ -134,7 +143,7 @@ export default function SignUpScreen(props) {
             />
           </View>
           <View style={styles.viewContainer}>
-            <Text style={styles.subTitle}>PostCode</Text>
+            <Text style={styles.subTitle}>Extra Details</Text>
             <TextInput
               style={styles.textInput}
               placeholder="Choose a location"
@@ -178,14 +187,15 @@ export default function SignUpScreen(props) {
             </TouchableOpacity>
           </View>
         </ScrollView>
-      </ImageBackground>
-    </View>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   scrollView: {
     // backgroundColor: "orange"
+    paddingBottom: 100
   },
 
   viewContainer: {

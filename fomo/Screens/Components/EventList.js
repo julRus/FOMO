@@ -11,32 +11,56 @@ import {
 import * as api from "../../api";
 
 export default function EventList(props) {
+  const {
+    keywords,
+    navigator,
+    enteredLocation,
+    pickedAge,
+    pickedGender
+  } = props;
+
   const [skiddleEvents, setSkiddleEvents] = useState([]);
+  const [longLatLocation, setLongLatLocation] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
-  api.fetchSkiddleEvents().then(data => {
-    const { keywords, ageRange } = props;
-    const { results } = data;
-    const eventsByKeywords = results.filter(event => {
-      if (
-        event.EventCode === keywords[0] ||
-        event.EventCode === keywords[1] ||
-        event.EventCode === keywords[2] ||
-        event.EventCode === keywords[3]
-      ) {
-        return event;
-      }
+  useEffect(() => {
+    api.fetchPostcodeInformation(enteredLocation).then(data => {
+      setLongLatLocation(data);
     });
-    setSkiddleEvents(eventsByKeywords);
-    setIsLoading(false);
-  });
+    api.fetchSkiddleEvents(longLatLocation).then(data => {
+      const { results } = data;
+      const eventsByKeywords = results.filter(event => {
+        if (keywords) {
+          if (
+            event.EventCode === keywords[0] ||
+            event.EventCode === keywords[1] ||
+            event.EventCode === keywords[2] ||
+            event.EventCode === keywords[3]
+          ) {
+            return event;
+          }
+        } else {
+          return event;
+        }
+      });
+      setSkiddleEvents(eventsByKeywords);
+      setIsLoading(false);
+    });
+  }, []);
 
   // function viewMap() {
   //   props.navigator("MyMap", { skiddleEvents });
   // }
 
-  function viewEvent(id) {
-    props.navigator("Event", { id });
+  function viewEvent(id, eventCode) {
+    props.navigator("Event", {
+      id,
+      eventCode,
+      keywords,
+      enteredLocation,
+      pickedAge,
+      pickedGender
+    });
   }
 
   if (isLoading)
@@ -45,15 +69,19 @@ export default function EventList(props) {
         <Text style={styles.loading}>Loading...</Text>
       </View>
     );
+
   return (
     <View>
-      <TouchableOpacity onPress={null}>
-        <Text style={styles.mapButton}>MAP > > ></Text>
+      <TouchableOpacity onPress={() => props.goToMap(skiddleEvents)}>
+        <Text style={styles.mapButton}>MAP</Text>
       </TouchableOpacity>
       <FlatList
         data={skiddleEvents}
         renderItem={({ item }) => (
-          <TouchableOpacity key={item.id} onPress={() => viewEvent(item.id)}>
+          <TouchableOpacity
+            key={item.id}
+            onPress={() => viewEvent(item.id, item.EventCode)}
+          >
             <View style={styles.events} key={item.id}>
               <ImageBackground
                 style={{
