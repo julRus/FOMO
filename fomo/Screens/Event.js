@@ -29,9 +29,9 @@ export default function Event(props) {
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
-  let price = event.entryprice.split('£').join('')
+  let price = event.entryprice.split("£").join("");
   if (price === "") {
-    price = '0.00'
+    price = "0.00";
   }
 
   useEffect(() => {
@@ -178,9 +178,7 @@ export default function Event(props) {
             <Text style={{ ...styles.minAge, ...styles.eventText }}>
               Age Range: {eventDetails.MinAge}+
             </Text>
-            <Text style={styles.eventText}>
-              Entry Price: £{price}
-            </Text>
+            <Text style={styles.eventText}>Entry Price: £{price}</Text>
             <Text></Text>
             <Text style={styles.eventHeading}>Details:</Text>
             <Text style={styles.eventText2}>{eventDetails.description}</Text>

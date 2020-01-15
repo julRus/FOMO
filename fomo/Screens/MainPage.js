@@ -23,10 +23,8 @@ export default function MainPage(props) {
   // console.log(props.navigation.state.params);
 
   useEffect(() => {
+    console.log("entered username", username);
     fetchUserByUsername(username)
-      .then(data => {
-        fetchPostcodeInformation(data.location);
-      })
       .then(data => {
         console.log("DATA HERE", data);
       })

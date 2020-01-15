@@ -10,40 +10,23 @@ import ErrorDisplay from "./Components/ErrorDisplay";
 import Home from "./Components/Home"
 import Dashboard from "./Components/Dashboard";
 
-
 class App extends React.Component {
   state = {
     currentUser: "",
     userId: null,
-    businessName: "",
-    accessToken: null
+    business_name: ""
   };
 
   componentDidMount() {
-    this.setState({
-      currentUser: "",
-      userId: null,
-      businessName: null || localStorage.busName,
-      accessToken: null || localStorage.token,
-      err: { msg: "please log in to view more" }
-    });
+    this.setState({ currentUser: "", userId: null });
   }
-  getUser = (username, businessName, id, accessToken) => {
+  getUser = (username, id, business_name) => {
     this.setState({
       currentUser: username,
       userId: id,
-      businessName,
-      accessToken
+      business_name: business_name
     });
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('busName', businessName)
   };
-
-  logOut = () => {
-    this.setState({accessToken: null})
-    localStorage.removeItem('token');
-    localStorage.removeItem('busName')
-  }
 
   render() {
     const { businessName, accessToken, err } = this.state;
@@ -61,10 +44,6 @@ class App extends React.Component {
           <Dashboard path="/dashboard" />
 
           {/* <Feedback path="/Data" /> */}
-=======
-    currentUser:"",
-    userId: null,
-    business_name: ""
   }
  
   componentDidMount () {
@@ -93,7 +72,6 @@ class App extends React.Component {
         </Router>
       </div>
     );
-
   }
 }
 
