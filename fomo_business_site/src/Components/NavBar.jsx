@@ -1,21 +1,34 @@
 import React from "react";
 import { Link } from "@reach/router";
+import * as api from "./Api";
 
-export default function NavBar() {
+export default function NavBar({ logOut, access}) {
+  function apiLog(){
+    api.logOut(access).then(response => console.log(response))
+      .catch(response => console.log(response));
+  }
   return (
     <div className="NavBar">
       <ul className="NavLinks">
         <Link to="/">
-        <li className="Link">HOME</li>
+        {!access && <li className="Link">HOME</li>}
         </Link>
         <Link to="/events">
           <li className="Link">EVENTS</li>
         </Link>
-        <Link to="/dashboard">
-        <li className="Link">DASHBOARD</li>  
-        </Link>
+
         
-        <li className="Link">USER</li>
+        <li className="Link">FEEDBACK</li>
+        <Link to="/business_account">
+        {access && <li className="Link">BUSINESS</li>}
+        </Link>
+        {access && <li className="Link" onClick={()=> {logOut()
+        // apiLog()
+         }}>LOG OUT</li>}
+        <Link to="/dashboard">
+         {access &&  <li className="Link">DASHBOARD</li>}  
+        </Link>
+
       </ul>
     </div>
   );

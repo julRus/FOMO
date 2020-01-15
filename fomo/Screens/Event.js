@@ -69,6 +69,8 @@ export default function Event(props) {
           source={{ uri: eventDetails.largeimageurl }}
           blurRadius={2}
         >
+
+          <TouchableOpacity style={styles.button} onPress={postEventHistory}>
           <View>
             <TouchableOpacity style={styles.button} onPress={postEventHistory}>
               <Text style={styles.buttonText}>Attend</Text>
@@ -161,6 +163,86 @@ export default function Event(props) {
           </Text>
           <Text style={{ ...styles.description, ...styles.eventText }}>
             {eventDetails.description}
+          </Text>
+
+          <View>
+            <TouchableOpacity style={styles.button} onPress={postEventHistory}>
+              <Text style={styles.buttonText}>Attend</Text>
+            </TouchableOpacity>
+
+            <Text style={{ ...styles.date, ...styles.eventText }}>
+              {new Date(eventDetails.date).toDateString()},{" "}
+              {eventDetails.openingtimes.doorsopen} -
+              {eventDetails.openingtimes.doorsclose}
+            </Text>
+            <Text style={{ ...styles.minAge, ...styles.eventText }}>
+              Age Range: {eventDetails.MinAge}+
+            </Text>
+            <Text style={styles.eventText}>
+              Entry Price: £{price}
+            </Text>
+            <Text></Text>
+            <Text style={styles.eventHeading}>Details:</Text>
+            <Text style={styles.eventText2}>{eventDetails.description}</Text>
+            <Text style={styles.eventHeading}>Address:</Text>
+            <Text style={styles.eventText2}>{event.venue.address}</Text>
+            {/* <Button
+              onPress={() => {
+                console.log(event);
+                // Linking.openURL("https://google.com");
+              }}
+              title="Press Me"
+            /> */}
+            <MapView
+              zoomEnabled={true}
+              style={styles.map}
+              region={{
+                latitude: event.venue.latitude,
+                longitude: event.venue.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+              maxZoomLevel={50}
+              minZoomLevel={13}
+              onMapReady={() => {
+                PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                ).then(granted => {
+                  if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("Location permission granted");
+                  } else {
+                    alert("Location permission denied");
+                  }
+                });
+              }}
+            >
+              <View>
+                <MapView.Marker
+                  pinColor={"rgba(196, 73, 7, 0.9)"}
+                  title={event.eventname}
+                  coordinate={{
+                    latitude: event.venue.latitude,
+                    longitude: event.venue.longitude
+                  }}
+                >
+                  <MapView.Callout
+                    tooltip={true}
+                    onPress={() => {
+                      Linking.openURL(event.link);
+                    }}
+                    title="Press Me"
+                  >
+                    <TouchableOpacity>
+                      <View style={styles.markerBubble}>
+                        <Text style={styles.markerText}>{event.eventname}</Text>
+                        <Text style={styles.markerLink}>Go to page</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </MapView.Callout>
+                </MapView.Marker>
+              </View>
+            </MapView>
+          </View>
           </Text> */}
         </ImageBackground>
       </View>

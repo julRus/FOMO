@@ -7,7 +7,7 @@ const Home = ({getUser}) => {
     <div>
       <h1>Homepage</h1>
       <LogIn getUser={getUser}/>
-      {/* <SignUp /> */}
+      <SignUp />
     </div>
   );
 };

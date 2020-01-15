@@ -8,6 +8,8 @@ export default class LogIn extends React.Component{
   state = {
     username: "",
     password : "",
+    businessName: "",
+    err: null
     err: null,
     access_token: ""
   }
@@ -29,6 +31,11 @@ export default class LogIn extends React.Component{
 
     api
     .logIn({username, password})
+    .then(({details, access_token}) => {
+      console.log(details)
+      getUser(details.username, details.business_name, details.business_id, access_token);
+      this.setState({username: "", password: "", err: null})
+    navigate("/events")})
     .then(response => {
       getUser(response.details.username, response.details.business_id, response.details.business_name)
       this.setState({username: response.details.username, password: "", err: null, access_token: response.access_token, business_name: response.details.business_name})

@@ -14,10 +14,15 @@ import {
 import MapView from "react-native-maps";
 
 export default function MyMap(props) {
+<<<<<<< HEAD
   const { skiddleEvents, businessEvents } = props.navigation.state.params;
   const events = skiddleEvents
     ? skiddleEvents.slice(0, skiddleEvents.length - 1)
     : businessEvents.slice(0, businessEvents.length - 1);
+=======
+  const { skiddleEvents, enteredLocation } = props.navigation.state.params;
+  const events = skiddleEvents.slice(0, 1);
+>>>>>>> 04feca3dca5b124904c3da0552bfc8e724a9f5a0
 
   return (
     <ImageBackground
