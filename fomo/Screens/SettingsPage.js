@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+
 export default function SettingsPage(props) {
-  const [enteredUsername, setEnteredUsername] = useState("");
+  const { enteredUsername } = props.navigation.state.params;
+
+  const [inputtedUsername, setinputtedUsername] = useState("");
   const [enteredFirstPassword, setFirstPassword] = useState("");
   const [enteredSecondPassword, setSecondPassword] = useState("");
+
+  useEffect(() => {
+    console.log(enteredUsername);
+  });
+
   const handleTextChangeUsername = enteredText => {
-    setEnteredUsername(enteredText);
+    setinputtedUsername(enteredText);
   };
   const handleFirstChangePassword = enteredText => {
     setFirstPassword(enteredText);
@@ -14,7 +22,7 @@ export default function SettingsPage(props) {
     setSecondPassword(enteredText);
   };
   const patchUsername = () => {
-    console.log(enteredUsername);
+    console.log(inputtedUsername);
   };
   const patchPassword = () => {
     if (enteredFirstPassword === enteredSecondPassword) {
@@ -28,7 +36,7 @@ export default function SettingsPage(props) {
       <TextInput
         required
         placeholder="new username"
-        value={enteredUsername}
+        value={inputtedUsername}
         onChangeText={handleTextChangeUsername}
       ></TextInput>
       <Button title="change username" onPress={patchUsername} />

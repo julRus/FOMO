@@ -1,14 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import EventList from "./Components/EventList";
+import * as api from "../api";
 
 export default function MainPage(props) {
-  const { keywords, familyFriendly, navigator } = props.navigation.state.params;
+  const {
+    keywords,
+    navigator,
+    enteredUsername,
+    enteredLocation,
+    pickedAge,
+    pickedGender
+  } = props.navigation.state.params;
+
+  // console.log(props.navigation.state.params);
+  // useEffect(() => {
+  //   api.fetchUserByUsername(user).then(data => {
+  //     setUserData(data);
+  //     console.log(userData);
+  //   });
+  // }, []);
+
+  function goToSettings() {
+    navigator("SettingsPage", { enteredUsername });
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={goToSettings}>
+          <Text style={styles.settings}>settings</Text>
+        </TouchableOpacity>
+      </View>
       {/* <View style={styles.subHeader}>
-        <Text style={styles.settings}>settings</Text>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
         {/* <Text style={styles.changeLocation}>Change</Text> }
         <Text style={styles.location}>Manchester</Text>
@@ -16,10 +40,11 @@ export default function MainPage(props) {
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
       <EventList
         keywords={keywords}
-        ageRange={familyFriendly}
         navigator={navigator}
+        enteredLocation={enteredLocation}
+        pickedAge={pickedAge}
+        pickedGender={pickedGender}
       />
-      {/* <Event view={viewEvent} id={eventId} /> */}
     </View>
   );
 }
@@ -29,7 +54,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "black",
-    paddingBottom: 60
+    paddingBottom: 60,
+    marginTop: 20
   },
   settings: {
     color: "white",
