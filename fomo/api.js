@@ -65,7 +65,7 @@ export const postUser = () => {
     .catch(console.log("postUser"));
 };
 
-export const fetchUserByUsername = username => {
+export const fetchUserByUsername = (username = "grumpy19") => {
   return axios
     .get(`https://fomo-api.herokuapp.com/users/${username}`)
     .then(({ data }) => {
@@ -92,4 +92,21 @@ export const postEventHistory = (
     .then(({ data }) => {
       console.log(data);
     });
+};
+
+export const patchUserByUsername = (user, body) => {
+  console.log(user);
+  axios
+    .patch(`https://fomo-api.herokuapp.com/users/${user}/username`, {
+      username: body
+    })
+    .then(({ data }) => {
+      console.log(data);
+    });
+};
+
+export const fetchSmallBusinessEvents = () => {
+  return axios.get("https://fomo-api.herokuapp.com/events").then(({ data }) => {
+    return data;
+  });
 };

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import EventList from "./Components/EventList";
-import * as api from "../api";
 
 export default function MainPage(props) {
   const {
@@ -25,12 +24,16 @@ export default function MainPage(props) {
     navigator("SettingsPage", { enteredUsername });
   }
 
+  function goToMap() {
+    // console.log(skiddleEvents[0]);
+    navigator("MyMap", { skiddleEvents });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={goToSettings}>
-          <Text style={styles.settings}>settings</Text>
-        </TouchableOpacity>
+        <Text style={styles.title}>MAJOR EVENTS</Text>
+        <Text style={styles.underTitle}>Large Business Events</Text>
       </View>
       {/* <View style={styles.subHeader}>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
@@ -45,6 +48,14 @@ export default function MainPage(props) {
         pickedAge={pickedAge}
         pickedGender={pickedGender}
       />
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={goToSettings}>
+          <Text style={styles.settings}>settings</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={goToMap}>
+          <Text style={styles.mapButton}>MAP</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -57,17 +68,45 @@ const styles = StyleSheet.create({
     paddingBottom: 60,
     marginTop: 20
   },
+
+  header: {
+    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    padding: 10
+  },
+
+  footer: {
+    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    marginTop: "152%",
+    width: "100%",
+    position: "absolute"
+  },
+
   settings: {
     color: "white",
     marginHorizontal: 10
+  },
+  mapButton: {
+    color: "white",
+    textAlign: "right",
+    top: -15,
+    right: 10
   },
 
   title: {
     color: "white",
     fontSize: 30,
     opacity: 0.7,
-    textAlign: "center"
+    textAlign: "center",
+    borderColor: "white",
+    borderBottomWidth: 0.2
   },
+
+  underTitle: {
+    color: "white",
+    textAlign: "center",
+    opacity: 0.5
+  },
+
   date: {
     color: "white",
     borderWidth: 0.4,
