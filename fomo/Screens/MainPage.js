@@ -42,6 +42,7 @@ export default function MainPage(props) {
       </View> */}
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
       <EventList
+        navigator={navigator}
         keywords={keywords}
         enteredLocation={enteredLocation}
         pickedAge={pickedAge}
@@ -79,25 +80,18 @@ const styles = StyleSheet.create({
   },
 
   settings: {
-    color: "white",
     marginHorizontal: 10
-  },
-  mapButton: {
-    color: "white",
-    textAlign: "right"
   },
 
   title: {
-    color: "white",
     fontSize: 30,
     opacity: 0.7,
     textAlign: "center",
-    borderColor: "white",
+    borderColor: "black",
     borderBottomWidth: 0.2
   },
 
   underTitle: {
-    color: "white",
     textAlign: "center",
     opacity: 0.5
   },
