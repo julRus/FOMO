@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert
 } from "react-native";
+import { fetchLoginToken } from "../api";
 
 export default function HomeScreen(props) {
   const [enteredUsername, setEnteredUsername] = useState("");
@@ -28,11 +29,22 @@ export default function HomeScreen(props) {
   const authenticateUser = () => {
     setAuthDetails({ username: enteredUsername, password: enteredPassword });
     setEnteredUsername(""), setEnteredPassword("");
-    props.navigator("MainPage", {
-      username: enteredUsername,
-      password: enteredPassword,
-      navigator: props.navigator
-    });
+
+    fetchLoginToken(enteredUsername, enteredPassword)
+      .then(data => {
+        if (data.access_token) {
+          console.log("Token found");
+          props.navigator("MainPage", {
+            username: enteredUsername,
+            password: enteredPassword,
+            navigator: props.navigator
+          });
+        }
+      })
+      .catch(() => {
+        console.log("Token not found");
+        Alert.alert("Incorrect username and/or password");
+      });
   };
 
   const goToSignInPage = () => {

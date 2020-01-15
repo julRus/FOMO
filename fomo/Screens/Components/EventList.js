@@ -51,14 +51,15 @@ export default function EventList(props) {
   //   props.navigator("MyMap", { skiddleEvents });
   // }
 
-  function viewEvent(id, eventCode) {
+  function viewEvent(id, eventCode, event) {
     props.navigator("Event", {
       id,
       eventCode,
       keywords,
       enteredLocation,
       pickedAge,
-      pickedGender
+      pickedGender,
+      event
     });
   }
 
@@ -79,7 +80,7 @@ export default function EventList(props) {
         renderItem={({ item }) => (
           <TouchableOpacity
             key={item.id}
-            onPress={() => viewEvent(item.id, item.EventCode)}
+            onPress={() => viewEvent(item.id, item.EventCode, item)}
           >
             <View style={styles.events} key={item.id}>
               <ImageBackground

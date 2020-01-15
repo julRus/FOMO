@@ -30,13 +30,13 @@ export default function MyMap(props) {
       blurRadius={2}
     >
       <View style={styles.mapContainer}>
-        {/* <Button
+        <Button
           onPress={() => {
-            console.log("Start", events, "End");
+            console.log("Start", enteredLocation, "End");
             // Linking.openURL("https://google.com");
           }}
           title="Press Me"
-        /> */}
+        />
         <MapView
           zoomEnabled={true}
           style={styles.map}
