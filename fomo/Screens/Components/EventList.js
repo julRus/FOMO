@@ -72,6 +72,9 @@ export default function EventList(props) {
 
   return (
     <View>
+      <TouchableOpacity onPress={() => props.goToMap(skiddleEvents)}>
+        <Text style={styles.mapButton}>MAP</Text>
+      </TouchableOpacity>
       <FlatList
         data={skiddleEvents}
         renderItem={({ item }) => (
