@@ -14,8 +14,10 @@ import {
 import MapView from "react-native-maps";
 
 export default function MyMap(props) {
-  const { skiddleEvents } = props.navigation.state.params;
-  const events = skiddleEvents.slice(0, 1);
+  const { skiddleEvents, businessEvents } = props.navigation.state.params;
+  const events = skiddleEvents
+    ? skiddleEvents.slice(0, skiddleEvents.length - 1)
+    : businessEvents.slice(0, businessEvents.length - 1);
 
   return (
     <ImageBackground
@@ -59,16 +61,23 @@ export default function MyMap(props) {
           }}
         >
           <View>
-            {skiddleEvents.map(event => {
+            {events.map(event => {
               return (
                 <View key={event.id}>
                   <MapView.Marker
                     pinColor={"rgba(196, 73, 7, 0.9)"}
                     title={event.eventname}
-                    coordinate={{
-                      latitude: event.venue.latitude,
-                      longitude: event.venue.longitude
-                    }}
+                    coordinate={
+                      event.venue.latitude !== null
+                        ? {
+                            latitude: event.venue.latitude,
+                            longitude: event.venue.longitude
+                          }
+                        : {
+                            latitude: "56",
+                            longitude: "-4"
+                          }
+                    }
                   >
                     <MapView.Callout
                       tooltip={true}

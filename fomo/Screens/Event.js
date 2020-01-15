@@ -7,6 +7,8 @@ import {
   ImageBackground
 } from "react-native";
 import MapView from "react-native-maps";
+import Swiper from "react-native-swiper";
+import MyMap from "./MyMap";
 import Delta from "./Components/Delta";
 
 import * as api from "../api";
@@ -63,6 +65,7 @@ export default function Event(props) {
           <TouchableOpacity style={styles.button} onPress={postEventHistory}>
             <Text style={styles.buttonText}>Attend</Text>
           </TouchableOpacity>
+
           <Text style={{ ...styles.date, ...styles.eventText }}>
             {new Date(eventDetails.date).toDateString()},{" "}
             {eventDetails.openingtimes.doorsopen} -
