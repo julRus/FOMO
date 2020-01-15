@@ -24,7 +24,7 @@ export default function MainPage(props) {
     navigator("SettingsPage", { enteredUsername });
   }
 
-  function goToMap() {
+  function goToMap(skiddleEvents) {
     // console.log(skiddleEvents[0]);
     navigator("MyMap", { skiddleEvents });
   }
@@ -43,17 +43,14 @@ export default function MainPage(props) {
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
       <EventList
         keywords={keywords}
-        navigator={navigator}
         enteredLocation={enteredLocation}
         pickedAge={pickedAge}
         pickedGender={pickedGender}
+        goToMap={goToMap}
       />
       <View style={styles.footer}>
         <TouchableOpacity onPress={goToSettings}>
           <Text style={styles.settings}>settings</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={goToMap}>
-          <Text style={styles.mapButton}>MAP</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -87,9 +84,7 @@ const styles = StyleSheet.create({
   },
   mapButton: {
     color: "white",
-    textAlign: "right",
-    top: -15,
-    right: 10
+    textAlign: "right"
   },
 
   title: {
