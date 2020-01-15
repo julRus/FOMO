@@ -8,7 +8,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Alert
 } from "react-native";
 import axios from "axios";
 import Quiz from "./Components/Quiz";
@@ -24,8 +25,6 @@ export default function SignUpScreen(props) {
   const [enteredLocation, setEnteredLocation] = useState("");
   const [pickedAge, setPickedAge] = useState("");
   const [pickedGender, setPickedGender] = useState("");
-  const [keywords, setKeywords] = useState([]);
-  const [famFriendly, setFamFriendly] = useState(false);
 
   const handleSetUsername = enteredText => {
     setEnteredUsername(enteredText);
@@ -44,7 +43,7 @@ export default function SignUpScreen(props) {
   };
 
   const handleSetLocation = enteredText => {
-    setEnteredLocation(enteredText);
+    setEnteredLocation(enteredText.replace(/[ ]/g, ""));
   };
 
   const handleSetPickedAge = enteredText => {
@@ -55,48 +54,53 @@ export default function SignUpScreen(props) {
     setPickedGender(enteredText);
   };
 
-  const setModalView = () => {
-    setViewModal(false);
-  };
-
-  const setModalInformation = (kwords, familyFreindlyBool) => {
-    if (kwords) {
-      setKeywords(kwords);
-      setFamFriendly(familyFreindlyBool);
-      axios.post("https://fomo-api.herokuapp.com/register", {
-        username: enteredUsername,
-        password: enteredPassword,
-        email: enteredEmail,
-        location: enteredLocation,
-        age: pickedAge,
-        gender: pickedGender,
-        option_1: keywords[0],
-        option_2: keywords[1],
-        option_3: keywords[2],
-        option_4: keywords[3],
-        family: famFriendly
+  const postUser = keywords => {
+    if (keywords) {
+      setViewModal(false);
+      axios
+        .post("https://fomo-api.herokuapp.com/register", {
+          username: enteredUsername,
+          password: enteredPassword,
+          email: enteredEmail,
+          location: enteredLocation,
+          age: pickedAge,
+          gender: pickedGender,
+          option_1: keywords[0],
+          option_2: keywords[1],
+          option_3: keywords[2],
+          option_4: keywords[3]
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
+      navigator("MainPage", {
+        keywords,
+        navigator,
+        enteredUsername,
+        enteredLocation,
+        pickedAge,
+        pickedGender
       });
     }
   };
 
   const submitNewUser = () => {
     if (enteredPassword !== enteredConfirmPassword) {
-      console.log("Password mismatch");
+      Alert.alert("You're Passwords do not match, please try again");
+      setEnteredPassword("");
+      setEnteredConfirmPassword("");
+    } else if (enteredUsername === "" || enteredLocation === "") {
+      Alert.alert(
+        `You have not filled in ALL the required feelds, please provide a ${
+          enteredUsername === "" ? "Username" : "Password"
+        }`
+      );
+    } else if (!enteredPassword.match(/[0-9, A-Z]/g)) {
+      Alert.alert(
+        "Password is too weak. Please use numbers, uppercase letters in your password."
+      );
     } else {
       setViewModal(true);
-      // axios
-      //   .post("https://fomo-api.herokuapp.com/register", {
-      //     username: enteredUsername,
-      //     password: enteredPassword,
-      //     email: enteredEmail,
-      //     location: enteredLocation,
-      //     age: pickedAge,
-      //     gender: pickedGender
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     setViewModal(true);
-      //   });
     }
   };
 
@@ -113,13 +117,10 @@ export default function SignUpScreen(props) {
         height: "100%"
       }}
       source={require("../assets/bg.jpg")}
+      resizeMode="cover"
+      blurRadius={2}
     >
-      <Quiz
-        view={viewModal}
-        navigator={navigator}
-        setModalView={setViewModal}
-        returnInforamation={setModalInformation}
-      />
+      <Quiz view={viewModal} navigator={navigator} postUser={postUser} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
@@ -128,7 +129,7 @@ export default function SignUpScreen(props) {
             <Text style={styles.subTitle}>Username / Email</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="Enter your username"
+              placeholder="Enter your username(REQ)"
               value={enteredUsername}
               onChangeText={handleSetUsername}
             />
@@ -141,14 +142,14 @@ export default function SignUpScreen(props) {
             <Text style={styles.subTitle}>Password</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="Enter your password"
+              placeholder="Password(REQ)"
               value={enteredPassword}
               onChangeText={handleSetPassword}
               secureTextEntry={true}
             />
             <TextInput
               style={styles.textInput}
-              placeholder="Confirm your password"
+              placeholder="Re-Type Password(REQ)"
               value={enteredConfirmPassword}
               onChangeText={handleSetConfirmPassword}
               secureTextEntry={true}
@@ -158,9 +159,10 @@ export default function SignUpScreen(props) {
             <Text style={styles.subTitle}>Extra Details</Text>
             <TextInput
               style={styles.textInput}
-              placeholder="Choose a location"
+              placeholder="Postcode(REQ)"
               value={enteredLocation}
               onChangeText={handleSetLocation}
+              autoCapitalize="words"
             />
             <View style={styles.pickerContainer}>
               <Picker

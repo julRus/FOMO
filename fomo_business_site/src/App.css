@@ -168,6 +168,13 @@ body {
   padding: 20px;
   width: 50%;
 }
+
+.age-chart {
+  background-color: white;
+  width: 50%;
+  margin-top: 100px;
+  margin-left: 100px; 
+}
  button {
   background-color: blue;
   border: none;

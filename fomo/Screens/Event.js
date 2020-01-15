@@ -7,6 +7,8 @@ import {
   ImageBackground
 } from "react-native";
 import MapView from "react-native-maps";
+import Swiper from "react-native-swiper";
+import MyMap from "./MyMap";
 import Delta from "./Components/Delta";
 
 import * as api from "../api";
@@ -15,15 +17,32 @@ export default function Event(props) {
   const [eventDetails, setEventDetails] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { id } = props.navigation.state.params;
+  const {
+    id,
+    eventCode,
+    enteredLocation,
+    keywords,
+    pickedAge,
+    pickedGender
+  } = props.navigation.state.params;
 
   useEffect(() => {
     api.fetchEventByEventId(id).then(data => {
       setEventDetails(data.results);
       setLoading(false);
     });
-    console.log(eventDetails);
   }, []);
+
+  function postEventHistory() {
+    const eventLocation = `${eventDetails.venue.name}, ${eventDetails.venue.address}, ${eventDetails.venue.cityname}, ${eventDetails.venue.postcode}`;
+    api.postEventHistory(
+      pickedAge,
+      pickedGender,
+      eventCode,
+      eventLocation,
+      eventDetails.openingtimes.doorsopen
+    );
+  }
 
   if (loading)
     return (
@@ -43,12 +62,10 @@ export default function Event(props) {
           source={{ uri: eventDetails.largeimageurl }}
           blurRadius={2}
         >
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => console.log("click")}
-          >
+          <TouchableOpacity style={styles.button} onPress={postEventHistory}>
             <Text style={styles.buttonText}>Attend</Text>
           </TouchableOpacity>
+
           <Text style={{ ...styles.date, ...styles.eventText }}>
             {new Date(eventDetails.date).toDateString()},{" "}
             {eventDetails.openingtimes.doorsopen} -
