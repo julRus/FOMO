@@ -4,7 +4,7 @@ import { VictorySharedEvents, VictoryBar, VictoryLabel, VictoryPie } from "victo
 import axios from "axios"
 
 const createTally = data => {
-  let ageTally = {};
+  let ageTally = {"0-15": 0, "16-25":0, "26-39":0, "40-65":0, "66+":0};
   data.forEach(function(set) {
     if (ageTally[set.age]) {
       ageTally[set.age]++;
@@ -27,7 +27,6 @@ this.getEventData()
 
 componentDidUpdate(prevProps, prevState) {
  if (prevState.data.length !== this.state.data.length) {
-   console.log('hello')
    this.getEventData()
  }
 }
@@ -42,7 +41,6 @@ getEventData() {
   render() {
     const {data} = this.state
     const test = createTally(data)
-    console.log(test)
     return (
       <div className="age-chart">
         <svg viewBox="-50 -40 500 400">
@@ -90,11 +88,11 @@ getEventData() {
                   labels: { fontSize: 15 }
                 }}
                 data={[
-                  { x: "0-15", y: Number ? test["0-15"] : 0 },
-                  { x: "16-25", y: Number ? test["16-25"] : 0 },
-                  { x: "26-39", y: Number ? test["26-39"] : 0 },
-                  { x: "40-65", y: Number ? test["40-65"] : 0 },
-                  { x: "66+", y: Number ? test["66+"] : 0 }
+                  { x: "0-15", y: test["0-15"]  },
+                  { x: "16-25", y: test["16-25"]  },
+                  { x: "26-39", y: test["26-39"]  },
+                  { x: "40-65", y: test["40-65"] },
+                  { x: "66+", y: test["66+"] }
                 ]}
                 labels={["0-15", "16-25", "26-39", "40-65", "66+"]}
                 labelComponent={<VictoryLabel y={280} />}

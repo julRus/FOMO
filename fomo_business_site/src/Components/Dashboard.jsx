@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import AgeChart from './AgeChart';
+import GenderChart from "./GenderChart"
+import TimeChart from "./TimeChart"
 
 class Dashboard extends Component {
   render() {
     return (
       <div>
-      <AgeChart/>
+      {/* <AgeChart/>
+      <GenderChart/>
+      <TimeChart/> */}
       </div>
     );
   }
