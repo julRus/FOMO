@@ -10,12 +10,9 @@ import {
   Linking
 } from "react-native";
 import MapView from "react-native-maps";
-<<<<<<< HEAD
 import Swiper from "react-native-swiper";
 import MyMap from "./MyMap";
 import Delta from "./Components/Delta";
-=======
->>>>>>> 04feca3dca5b124904c3da0552bfc8e724a9f5a0
 
 import * as api from "../api";
 
@@ -32,9 +29,9 @@ export default function Event(props) {
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
-  let price = event.entryprice.split('£').join('')
+  let price = event.entryprice.split("£").join("");
   if (price === "") {
-    price = '0.00'
+    price = "0.00";
   }
 
   useEffect(() => {
@@ -72,23 +69,6 @@ export default function Event(props) {
           source={{ uri: eventDetails.largeimageurl }}
           blurRadius={2}
         >
-<<<<<<< HEAD
-          <TouchableOpacity style={styles.button} onPress={postEventHistory}>
-            <Text style={styles.buttonText}>Attend</Text>
-          </TouchableOpacity>
-
-          <Text style={{ ...styles.date, ...styles.eventText }}>
-            {new Date(eventDetails.date).toDateString()},{" "}
-            {eventDetails.openingtimes.doorsopen} -
-            {eventDetails.openingtimes.doorsclose}
-          </Text>
-          <Text style={{ ...styles.minAge, ...styles.eventText }}>
-            Age Range: {eventDetails.MinAge}+
-          </Text>
-          <Text style={{ ...styles.description, ...styles.eventText }}>
-            {eventDetails.description}
-          </Text>
-=======
           <View>
             <TouchableOpacity style={styles.button} onPress={postEventHistory}>
               <Text style={styles.buttonText}>Attend</Text>
@@ -102,9 +82,7 @@ export default function Event(props) {
             <Text style={{ ...styles.minAge, ...styles.eventText }}>
               Age Range: {eventDetails.MinAge}+
             </Text>
-            <Text style={styles.eventText}>
-              Entry Price: £{price}
-            </Text>
+            <Text style={styles.eventText}>Entry Price: £{price}</Text>
             <Text></Text>
             <Text style={styles.eventHeading}>Details:</Text>
             <Text style={styles.eventText2}>{eventDetails.description}</Text>
@@ -167,7 +145,6 @@ export default function Event(props) {
               </View>
             </MapView>
           </View>
->>>>>>> 04feca3dca5b124904c3da0552bfc8e724a9f5a0
         </ImageBackground>
       </View>
     );

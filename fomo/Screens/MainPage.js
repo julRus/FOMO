@@ -2,15 +2,7 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import IndependantMainPage from "./IndependantMainPage";
-=======
-import { fetchUserByUsername } from "../api";
->>>>>>> 04feca3dca5b124904c3da0552bfc8e724a9f5a0
-=======
-import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
->>>>>>> 0603f70fee8c0fa1f7bb268e35f103f7434ab91f
 
 export default function MainPage(props) {
   const {
@@ -27,10 +19,8 @@ export default function MainPage(props) {
   // console.log(props.navigation.state.params);
 
   useEffect(() => {
+    console.log("entered username", username);
     fetchUserByUsername(username)
-      .then(data => {
-        fetchPostcodeInformation(data.location);
-      })
       .then(data => {
         console.log("DATA HERE", data);
       })

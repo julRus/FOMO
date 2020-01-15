@@ -9,62 +9,42 @@ import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";
 import Dashboard from "./Components/Dashboard";
 
-
 class App extends React.Component {
   state = {
     currentUser: "",
     userId: null,
-    businessName: "",
-    accessToken: null
+    business_name: ""
   };
 
   componentDidMount() {
-    this.setState({
-      currentUser: "",
-      userId: null,
-      businessName: null || localStorage.busName,
-      accessToken: null || localStorage.token,
-      err: { msg: "please log in to view more" }
-    });
+    this.setState({ currentUser: "", userId: null });
   }
-  getUser = (username, businessName, id, accessToken) => {
+  getUser = (username, id, business_name) => {
     this.setState({
       currentUser: username,
       userId: id,
-      businessName,
-      accessToken
+      business_name: business_name
     });
-    localStorage.setItem('token', accessToken);
-    localStorage.setItem('busName', businessName)
   };
 
-  logOut = () => {
-    this.setState({accessToken: null})
-    localStorage.removeItem('token');
-    localStorage.removeItem('busName')
-  }
-
   render() {
-    const { businessName, accessToken, err } = this.state;
+    const { userId, business_name } = this.state;
     return (
       <div className="App">
-        <NavBar access={accessToken} logOut={this.logOut}/>
+        <NavBar />
         <Router>
           <Home path="/" getUser={this.getUser} />
-          <Events path={accessToken ? "/events" : "/"} />
-          <EventForm path={accessToken ? "/events/newevent" : "/"} />
-          <BusinessPage
-            business_name={businessName}
-            path={accessToken ? "business_account" : "/"}
+          <Events
+            path="/events"
+            userId={userId}
+            business_name={business_name}
           />
+          {/* <EventForm path="/events/events" userId={userId} /> */}
           <Dashboard path="/dashboard" />
-
-          {/* <Feedback path="/Data" /> */}
           {/* <User path="/User" />  */}
         </Router>
       </div>
     );
-
   }
 }
 
