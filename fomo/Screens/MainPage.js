@@ -2,35 +2,44 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
+<<<<<<< HEAD
 import IndependantMainPage from "./IndependantMainPage";
+=======
+import { fetchUserByUsername } from "../api";
+>>>>>>> 04feca3dca5b124904c3da0552bfc8e724a9f5a0
 
 export default function MainPage(props) {
   const {
     keywords,
     navigator,
-    enteredUsername,
     enteredLocation,
     pickedAge,
-    pickedGender
+    pickedGender,
+    username
   } = props.navigation.state.params;
 
   const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
 
   // console.log(props.navigation.state.params);
-  // useEffect(() => {
-  //   api.fetchUserByUsername(user).then(data => {
-  //     setUserData(data);
-  //     console.log(userData);
-  //   });
-  // }, []);
+
+  useEffect(() => {
+    console.log("entered username", username);
+    fetchUserByUsername(username)
+      .then(data => {
+        console.log("DATA HERE", data);
+      })
+      .catch(data => {
+        console.log("DATA 2 HERE", data);
+      });
+  }, []);
 
   function goToSettings() {
-    navigator("SettingsPage", { enteredUsername });
+    navigator("SettingsPage", { username });
   }
 
   function goToMap(skiddleEvents) {
     // console.log(skiddleEvents[0]);
-    navigator("MyMap", { skiddleEvents });
+    navigator("MyMap", { skiddleEvents, enteredLocation });
   }
 
   function independantEventsViewer(bool) {
