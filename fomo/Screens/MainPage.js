@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import EventList from "./Components/EventList";
-import { fetchUserByUsername } from "../api";
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
 
 export default function MainPage(props) {
   const {
@@ -16,8 +16,10 @@ export default function MainPage(props) {
   // console.log(props.navigation.state.params);
 
   useEffect(() => {
-    console.log("entered username", username);
     fetchUserByUsername(username)
+      .then(data => {
+        fetchPostcodeInformation(data.location);
+      })
       .then(data => {
         console.log("DATA HERE", data);
       })
