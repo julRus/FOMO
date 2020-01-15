@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
+
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
 import IndependantMainPage from "./IndependantMainPage";
+import { fetchUserByUsername } from "../api";
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
 
 export default function MainPage(props) {
   const {
