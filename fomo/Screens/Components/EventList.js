@@ -63,11 +63,6 @@ export default function EventList(props) {
     });
   }
 
-  function goToMap() {
-    // console.log(skiddleEvents[0]);
-    props.navigator("MyMap", { skiddleEvents });
-  }
-
   if (isLoading)
     return (
       <View style={styles.container}>
@@ -77,9 +72,6 @@ export default function EventList(props) {
 
   return (
     <View>
-      <TouchableOpacity onPress={goToMap}>
-        <Text style={styles.mapButton}>MAP > > ></Text>
-      </TouchableOpacity>
       <FlatList
         data={skiddleEvents}
         renderItem={({ item }) => (
