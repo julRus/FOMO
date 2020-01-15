@@ -8,7 +8,7 @@ import SignUp from "./Screens/SignUp";
 import MainPage from "./Screens/MainPage";
 import Event from "./Screens/Event";
 import SettingsPage from "./Screens/SettingsPage";
-// import MyMap from "./Screens/MyMap";
+import MyMap from "./Screens/MyMap";
 
 class Home extends React.Component {
   render() {
@@ -36,8 +36,8 @@ const RootStack = createStackNavigator(
     SignUp: SignUp,
     MainPage: MainPage,
     Event: Event,
-    SettingsPage: SettingsPage
-    // MyMap: MyMap
+    SettingsPage: SettingsPage,
+    MyMap: MyMap
   },
   { headerMode: "none" }
 );
