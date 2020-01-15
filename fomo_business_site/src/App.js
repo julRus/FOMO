@@ -20,7 +20,7 @@ class App extends React.Component {
     this.setState({
       currentUser: "",
       userId: null,
-      businessName: "",
+      businessName: null || localStorage.busName,
       accessToken: null || localStorage.token,
       err: { msg: "please log in to view more" }
     });
@@ -33,11 +33,13 @@ class App extends React.Component {
       accessToken
     });
     localStorage.setItem('token', accessToken);
+    localStorage.setItem('busName', businessName)
   };
 
   logOut = () => {
     this.setState({accessToken: null})
     localStorage.removeItem('token');
+    localStorage.removeItem('busName')
   }
 
   render() {

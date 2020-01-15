@@ -30,3 +30,9 @@ export const changeBusinessDetails = (businessName, params) => {
    .patch(`${baseUrl}${businessName}/details`, params )
    .then(({ data }) => data);
 };
+
+export const logOut  = ( token ) => {
+  console.log(typeof token)
+  console.log(token)
+  return axios.post(`${baseUrl}logout`, {headers: {Authorization: `Bearer ${token}`}})
+}

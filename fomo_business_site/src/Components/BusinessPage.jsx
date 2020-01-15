@@ -21,12 +21,13 @@ export default class BusinessPage extends React.Component {
    const {name, value} = e.target
    this.setState({[name]: value})
   }
+
   handlePasswordChange = e => {
     e.preventDefault();
     const {business_name} = this.props
     const {passwordOne, passwordTwo} = this.state
     if (passwordOne === passwordTwo){
-      api.changePassword(business_name, {passwordTwo}).then(response => console.log(response)).catch(response => console.log(response))
+      api.changePassword(business_name, {password: passwordTwo}).then(response => console.log(response)).catch(response => console.log(response))
     }else{
       this.setState({err: {msg: "Please ensure the both passwords match"}})
     }
@@ -35,9 +36,10 @@ export default class BusinessPage extends React.Component {
   handleBusinessChange = e => {
     e.preventDefault();
     const { business_name } = this.props;
-    const{businessName} = this.state
+    const {businessName, address, description, email, postCode, townCity} = this.state
+    const params = {business_name: businessName, address: address + " " + townCity + " " + " " + postCode, email, description}
     api
-      .changeBusinessDetails(business_name, { businessName })
+      .changeBusinessDetails(business_name, params)
       .then(response => console.log(response))
       .catch(response => console.log(response));
   };
