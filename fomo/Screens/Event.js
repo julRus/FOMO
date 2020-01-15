@@ -17,9 +17,8 @@ export default function Event(props) {
   const [eventDetails, setEventDetails] = useState();
   const [loading, setLoading] = useState(true);
 
-  const { event } = props.navigation.state.params;
-
   const {
+    event,
     id,
     eventCode,
     enteredLocation,
@@ -27,6 +26,10 @@ export default function Event(props) {
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
+  let price = event.entryprice.split('£').join('')
+  if (price === "") {
+    price = '0.00'
+  }
 
   useEffect(() => {
     api.fetchEventByEventId(id).then(data => {
@@ -76,9 +79,14 @@ export default function Event(props) {
             <Text style={{ ...styles.minAge, ...styles.eventText }}>
               Age Range: {eventDetails.MinAge}+
             </Text>
-            <Text style={{ ...styles.description, ...styles.eventText }}>
-              {eventDetails.description}
+            <Text style={styles.eventText}>
+              Entry Price: £{price}
             </Text>
+            <Text></Text>
+            <Text style={styles.eventHeading}>Details:</Text>
+            <Text style={styles.eventText2}>{eventDetails.description}</Text>
+            <Text style={styles.eventHeading}>Address:</Text>
+            <Text style={styles.eventText2}>{event.venue.address}</Text>
             {/* <Button
               onPress={() => {
                 console.log(event);
@@ -174,10 +182,24 @@ const styles = StyleSheet.create({
     marginTop: 60
   },
 
+  eventHeading: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center"
+  },
+
   eventText: {
     color: "white",
     fontSize: 20,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 5
+  },
+
+  eventText2: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 15
   },
 
   description: {
@@ -193,11 +215,11 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    marginTop: "90%",
+    marginTop: "95%",
     alignSelf: "center",
     position: "absolute",
     // top: "20%",
-    height: "95%",
+    height: "100%",
     width: "90%"
   },
 

@@ -65,7 +65,7 @@ export const postUser = () => {
     .catch(console.log("postUser"));
 };
 
-export const fetchUserByUsername = (username = "grumpy19") => {
+export const fetchUserByUsername = username => {
   return axios
     .get(`https://fomo-api.herokuapp.com/users/${username}`)
     .then(({ data }) => {
