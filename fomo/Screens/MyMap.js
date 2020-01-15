@@ -14,7 +14,7 @@ import {
 import MapView from "react-native-maps";
 
 export default function MyMap(props) {
-  const { skiddleEvents } = props.navigation.state.params;
+  const { skiddleEvents, enteredLocation } = props.navigation.state.params;
   const events = skiddleEvents.slice(0, 1);
 
   return (
@@ -30,7 +30,7 @@ export default function MyMap(props) {
       <View style={styles.mapContainer}>
         {/* <Button
           onPress={() => {
-            console.log("Start", events, "End");
+            console.log("Start", enteredLocation, "End");
             // Linking.openURL("https://google.com");
           }}
           title="Press Me"

@@ -4,10 +4,12 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
+  PermissionsAndroid,
+  Button,
+  Linking
 } from "react-native";
 import MapView from "react-native-maps";
-import Delta from "./Components/Delta";
 
 import * as api from "../api";
 
@@ -16,6 +18,7 @@ export default function Event(props) {
   const [loading, setLoading] = useState(true);
 
   const {
+    event,
     id,
     eventCode,
     enteredLocation,
@@ -23,6 +26,10 @@ export default function Event(props) {
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
+  let price = event.entryprice.split('£').join('')
+  if (price === "") {
+    price = '0.00'
+  }
 
   useEffect(() => {
     api.fetchEventByEventId(id).then(data => {
@@ -54,45 +61,90 @@ export default function Event(props) {
         <ImageBackground
           style={{
             width: "100%",
-            height: "100%",
-            opacity: 0.7
+            height: "100%"
           }}
           source={{ uri: eventDetails.largeimageurl }}
           blurRadius={2}
         >
-          <TouchableOpacity style={styles.button} onPress={postEventHistory}>
-            <Text style={styles.buttonText}>Attend</Text>
-          </TouchableOpacity>
-          <Text style={{ ...styles.date, ...styles.eventText }}>
-            {new Date(eventDetails.date).toDateString()},{" "}
-            {eventDetails.openingtimes.doorsopen} -
-            {eventDetails.openingtimes.doorsclose}
-          </Text>
-          <Text style={{ ...styles.minAge, ...styles.eventText }}>
-            Age Range: {eventDetails.MinAge}+
-          </Text>
-          <Text style={{ ...styles.description, ...styles.eventText }}>
-            {eventDetails.description}
-          </Text>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={postEventHistory}>
+              <Text style={styles.buttonText}>Attend</Text>
+            </TouchableOpacity>
+
+            <Text style={{ ...styles.date, ...styles.eventText }}>
+              {new Date(eventDetails.date).toDateString()},{" "}
+              {eventDetails.openingtimes.doorsopen} -
+              {eventDetails.openingtimes.doorsclose}
+            </Text>
+            <Text style={{ ...styles.minAge, ...styles.eventText }}>
+              Age Range: {eventDetails.MinAge}+
+            </Text>
+            <Text style={styles.eventText}>
+              Entry Price: £{price}
+            </Text>
+            <Text></Text>
+            <Text style={styles.eventHeading}>Details:</Text>
+            <Text style={styles.eventText2}>{eventDetails.description}</Text>
+            <Text style={styles.eventHeading}>Address:</Text>
+            <Text style={styles.eventText2}>{event.venue.address}</Text>
+            {/* <Button
+              onPress={() => {
+                console.log(event);
+                // Linking.openURL("https://google.com");
+              }}
+              title="Press Me"
+            /> */}
+            <MapView
+              zoomEnabled={true}
+              style={styles.map}
+              region={{
+                latitude: event.venue.latitude,
+                longitude: event.venue.longitude,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
+              }}
+              maxZoomLevel={50}
+              minZoomLevel={13}
+              onMapReady={() => {
+                PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                ).then(granted => {
+                  if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("Location permission granted");
+                  } else {
+                    alert("Location permission denied");
+                  }
+                });
+              }}
+            >
+              <View>
+                <MapView.Marker
+                  pinColor={"rgba(196, 73, 7, 0.9)"}
+                  title={event.eventname}
+                  coordinate={{
+                    latitude: event.venue.latitude,
+                    longitude: event.venue.longitude
+                  }}
+                >
+                  <MapView.Callout
+                    tooltip={true}
+                    onPress={() => {
+                      Linking.openURL(event.link);
+                    }}
+                    title="Press Me"
+                  >
+                    <TouchableOpacity>
+                      <View style={styles.markerBubble}>
+                        <Text style={styles.markerText}>{event.eventname}</Text>
+                        <Text style={styles.markerLink}>Go to page</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </MapView.Callout>
+                </MapView.Marker>
+              </View>
+            </MapView>
+          </View>
         </ImageBackground>
-        <MapView
-          style={styles.mapStyle}
-          initialRegion={Delta([
-            { latitude: 53.4824, longitude: -2.3406 },
-            { latitude: 54, longitude: -2 },
-            { latitude: 53, longitude: -2 }
-          ])}
-          maxZoomLevel={50}
-        >
-          {/* <MapView.Marker
-            coordinate={{
-              latitude: eventDetails.venue.latitude,
-              longitude: eventDetails.venue.longitude
-            }}
-            title={eventDetails.description}
-            description={new Date(eventDetails.date).toDateString()}
-          /> */}
-        </MapView>
       </View>
     );
 }
@@ -130,14 +182,64 @@ const styles = StyleSheet.create({
     marginTop: 60
   },
 
+  eventHeading: {
+    color: "white",
+    fontSize: 16,
+    textAlign: "center"
+  },
+
   eventText: {
     color: "white",
     fontSize: 20,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 5
+  },
+
+  eventText2: {
+    color: "white",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 15
   },
 
   description: {
     marginTop: 30,
     fontSize: 30
+  },
+
+  mapContainer: {
+    marginTop: "7%",
+    alignSelf: "center",
+    height: "98%",
+    width: "99%"
+  },
+
+  map: {
+    marginTop: "95%",
+    alignSelf: "center",
+    position: "absolute",
+    // top: "20%",
+    height: "100%",
+    width: "90%"
+  },
+
+  markerBubble: {
+    color: "white",
+    backgroundColor: "rgba(0,0,0,0.7)",
+    padding: 10,
+    borderRadius: 20
+  },
+
+  markerText: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "white"
+  },
+
+  markerLink: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#1E90FF",
+    textDecorationLine: "underline"
   }
 });
