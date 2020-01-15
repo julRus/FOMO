@@ -11,12 +11,23 @@ import {
 import * as api from "../../api";
 
 export default function EventList(props) {
+  const {
+    keywords,
+    navigator,
+    enteredLocation,
+    pickedAge,
+    pickedGender
+  } = props;
+
   const [skiddleEvents, setSkiddleEvents] = useState([]);
+  const [longLatLocation, setLongLatLocation] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.fetchSkiddleEvents().then(data => {
-      const { keywords, ageRange, navigator } = props;
+    api.fetchPostcodeInformation(enteredLocation).then(data => {
+      setLongLatLocation(data);
+    });
+    api.fetchSkiddleEvents(longLatLocation).then(data => {
       const { results } = data;
       const eventsByKeywords = results.filter(event => {
         if (keywords) {
@@ -41,8 +52,15 @@ export default function EventList(props) {
   //   props.navigator("MyMap", { skiddleEvents });
   // }
 
-  function viewEvent(id) {
-    props.navigator("Event", { id });
+  function viewEvent(id, eventCode) {
+    props.navigator("Event", {
+      id,
+      eventCode,
+      keywords,
+      enteredLocation,
+      pickedAge,
+      pickedGender
+    });
   }
 
   if (isLoading)
@@ -59,7 +77,10 @@ export default function EventList(props) {
       <FlatList
         data={skiddleEvents}
         renderItem={({ item }) => (
-          <TouchableOpacity key={item.id} onPress={() => viewEvent(item.id)}>
+          <TouchableOpacity
+            key={item.id}
+            onPress={() => viewEvent(item.id, item.EventCode)}
+          >
             <View style={styles.events} key={item.id}>
               <ImageBackground
                 style={{

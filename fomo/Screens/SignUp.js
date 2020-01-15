@@ -24,8 +24,6 @@ export default function SignUpScreen(props) {
   const [enteredLocation, setEnteredLocation] = useState("");
   const [pickedAge, setPickedAge] = useState("");
   const [pickedGender, setPickedGender] = useState("");
-  const [keywords, setKeywords] = useState([]);
-  const [famFriendly, setFamFriendly] = useState(false);
 
   const handleSetUsername = enteredText => {
     setEnteredUsername(enteredText);
@@ -55,26 +53,32 @@ export default function SignUpScreen(props) {
     setPickedGender(enteredText);
   };
 
-  const setModalView = () => {
-    setViewModal(false);
-  };
-
-  const setModalInformation = (kwords, familyFreindlyBool) => {
-    if (kwords) {
-      setKeywords(kwords);
-      setFamFriendly(familyFreindlyBool);
-      axios.post("https://fomo-api.herokuapp.com/register", {
-        username: enteredUsername,
-        password: enteredPassword,
-        email: enteredEmail,
-        location: enteredLocation,
-        age: pickedAge,
-        gender: pickedGender,
-        option_1: keywords[0],
-        option_2: keywords[1],
-        option_3: keywords[2],
-        option_4: keywords[3],
-        family: famFriendly
+  const postUser = keywords => {
+    if (keywords) {
+      setViewModal(false);
+      axios
+        .post("https://fomo-api.herokuapp.com/register", {
+          username: enteredUsername,
+          password: enteredPassword,
+          email: enteredEmail,
+          location: enteredLocation,
+          age: pickedAge,
+          gender: pickedGender,
+          option_1: keywords[0],
+          option_2: keywords[1],
+          option_3: keywords[2],
+          option_4: keywords[3]
+        })
+        .then(({ data }) => {
+          console.log(data);
+        });
+      navigator("MainPage", {
+        keywords,
+        navigator,
+        enteredUsername,
+        enteredLocation,
+        pickedAge,
+        pickedGender
       });
     }
   };
@@ -84,19 +88,6 @@ export default function SignUpScreen(props) {
       console.log("Password mismatch");
     } else {
       setViewModal(true);
-      // axios
-      //   .post("https://fomo-api.herokuapp.com/register", {
-      //     username: enteredUsername,
-      //     password: enteredPassword,
-      //     email: enteredEmail,
-      //     location: enteredLocation,
-      //     age: pickedAge,
-      //     gender: pickedGender
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //     setViewModal(true);
-      //   });
     }
   };
 
@@ -114,12 +105,7 @@ export default function SignUpScreen(props) {
       }}
       source={require("../assets/bg.jpg")}
     >
-      <Quiz
-        view={viewModal}
-        navigator={navigator}
-        setModalView={setViewModal}
-        returnInforamation={setModalInformation}
-      />
+      <Quiz view={viewModal} navigator={navigator} postUser={postUser} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
