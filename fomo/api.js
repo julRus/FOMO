@@ -13,7 +13,7 @@ export const fetchSkiddleEvents = (
     .catch(console.log("fetchSkiddleEvents"));
 };
 
-export const fetchPostcodeInformation = postcode => {
+export const fetchPostcodeInformation = (postcode = "M30 7PG") => {
   return axios
     .get(`https://api.postcodes.io/postcodes/${postcode}`)
     .then(({ data }) => {
@@ -65,7 +65,7 @@ export const postUser = () => {
     .catch(console.log("postUser"));
 };
 
-export const fetchUserByUsername = username => {
+export const fetchUserByUsername = (username = "jessjelly") => {
   return axios
     .get(`https://fomo-api.herokuapp.com/users/${username}`)
     .then(({ data }) => {
@@ -105,8 +105,9 @@ export const patchUserByUsername = (user, body) => {
     });
 };
 
-export const fetchSmallBusinessEvents = () => {
+export const fetchBusinessEvents = () => {
   return axios.get("https://fomo-api.herokuapp.com/events").then(({ data }) => {
+    console.log(data);
     return data;
   });
 };

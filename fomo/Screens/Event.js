@@ -10,6 +10,9 @@ import {
   Linking
 } from "react-native";
 import MapView from "react-native-maps";
+import Swiper from "react-native-swiper";
+import MyMap from "./MyMap";
+import Delta from "./Components/Delta";
 
 import * as api from "../api";
 
@@ -144,6 +147,21 @@ export default function Event(props) {
               </View>
             </MapView>
           </View>
+          {/* <TouchableOpacity style={styles.button} onPress={postEventHistory}>
+            <Text style={styles.buttonText}>Attend</Text>
+          </TouchableOpacity>
+
+          <Text style={{ ...styles.date, ...styles.eventText }}>
+            {new Date(eventDetails.date).toDateString()},{" "}
+            {eventDetails.openingtimes.doorsopen} -
+            {eventDetails.openingtimes.doorsclose}
+          </Text>
+          <Text style={{ ...styles.minAge, ...styles.eventText }}>
+            Age Range: {eventDetails.MinAge}+
+          </Text>
+          <Text style={{ ...styles.description, ...styles.eventText }}>
+            {eventDetails.description}
+          </Text> */}
         </ImageBackground>
       </View>
     );

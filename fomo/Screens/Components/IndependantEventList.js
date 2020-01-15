@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   FlatList,
   ImageBackground,
-  Image
+  Image,
+  Modal
 } from "react-native";
 import * as api from "../../api";
 
-export default function EventList(props) {
+export default function IndependantEventList(props) {
   const {
     keywords,
     navigator,
@@ -19,7 +20,7 @@ export default function EventList(props) {
     pickedGender
   } = props;
 
-  const [skiddleEvents, setSkiddleEvents] = useState([]);
+  const [businessEvents, setBusinessEvents] = useState([]);
   const [longLatLocation, setLongLatLocation] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,22 +28,23 @@ export default function EventList(props) {
     api.fetchPostcodeInformation(enteredLocation).then(data => {
       setLongLatLocation(data);
     });
-    api.fetchSkiddleEvents(longLatLocation).then(data => {
-      const { results } = data;
-      console.log(keywords);
-      const eventsByKeywords = keywords
-        ? results.filter(event => {
-            if (
-              event.EventCode === keywords[0] ||
-              event.EventCode === keywords[1] ||
-              event.EventCode === keywords[2] ||
-              event.EventCode === keywords[3]
-            ) {
-              return event;
-            }
-          })
-        : results;
-      setSkiddleEvents(eventsByKeywords);
+    api.fetchBusinessEvents(longLatLocation).then(data => {
+      const { events } = data;
+      const eventsByKeywords = events.filter(event => {
+        if (keywords) {
+          if (
+            event.event_type === keywords[0] ||
+            event.event_type === keywords[1] ||
+            event.event_type === keywords[2] ||
+            event.event_type === keywords[3]
+          ) {
+            return event;
+          }
+        } else {
+          return event;
+        }
+      });
+      setBusinessEvents(eventsByKeywords);
       setIsLoading(false);
     });
   }, []);
@@ -51,15 +53,14 @@ export default function EventList(props) {
   //   props.navigator("MyMap", { skiddleEvents });
   // }
 
-  function viewEvent(id, eventCode, event) {
+  function viewEvent(id, eventCode) {
     props.navigator("Event", {
       id,
       eventCode,
       keywords,
       enteredLocation,
       pickedAge,
-      pickedGender,
-      event
+      pickedGender
     });
   }
 
@@ -72,15 +73,15 @@ export default function EventList(props) {
 
   return (
     <View>
-      <TouchableOpacity onPress={() => props.goToMap(skiddleEvents)}>
+      <TouchableOpacity onPress={() => props.goToMap(businessEvents)}>
         <Text style={styles.mapButton}>MAP</Text>
       </TouchableOpacity>
       <FlatList
-        data={skiddleEvents}
+        data={businessEvents}
         renderItem={({ item }) => (
           <TouchableOpacity
-            key={item.id}
-            onPress={() => viewEvent(item.id, item.EventCode, item)}
+            keyExtractor={item => item.id.toString()}
+            onPress={() => viewEvent(item.id, item.EventCode)}
           >
             <View style={styles.events} key={item.id}>
               <ImageBackground
@@ -89,7 +90,7 @@ export default function EventList(props) {
                   height: 100,
                   opacity: 0.7
                 }}
-                source={{ uri: item.largeimageurl }}
+                source={{ uri: item.url }}
                 blurRadius={3}
               >
                 <Image
@@ -99,22 +100,25 @@ export default function EventList(props) {
                     alignSelf: "flex-end",
                     position: "absolute"
                   }}
-                  source={{ uri: item.imageurl }}
+                  source={{ uri: item.url }}
                 ></Image>
-                <Text style={styles.eventDate}>
-                  {new Date(item.date).toDateString()},{" "}
-                  {item.openingtimes.doorsopen} - {item.openingtimes.doorsclose}
-                </Text>
-                <Text style={styles.eventName}>{item.eventname}</Text>
-                <Text style={styles.eventLocation}>
-                  {item.venue.name}, {item.venue.postcode}
-                </Text>
-                <Text style={styles.eventPrice}>
-                  {item.entryprice === "0.00" ? "Free" : `${item.entryprice}`}
-                </Text>
-                <Text style={styles.eventAgeRange}>
-                  {item.minage ? "All" : `${item.minage}+`}
-                </Text>
+                <View style={styles.eventInfo}>
+                  <Text style={styles.eventDate}>
+                    {new Date(item.date).toDateString()},{" "}
+                    {item.openingtimes.doorsopen} -{" "}
+                    {item.openingtimes.doorsclose}
+                  </Text>
+                  <Text style={styles.eventName}>{item.event_name}</Text>
+                  <Text style={styles.eventLocation}>
+                    {item.venue.name}, {item.venue.postcode}
+                  </Text>
+                  <Text style={styles.eventPrice}>
+                    {item.entryprice === "0" || item.entryprice === ""
+                      ? "Free"
+                      : `£${item.entryprice}`}
+                  </Text>
+                  <Text style={styles.eventAgeRange}>{`${item.minage}+`}</Text>
+                </View>
               </ImageBackground>
             </View>
           </TouchableOpacity>
@@ -136,22 +140,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     top: -40
   },
+
+  eventInfo: {
+    backgroundColor: "black",
+    paddingBottom: 11
+  },
+
   eventDate: {
     color: "white",
-    fontSize: 10,
+    fontSize: 15,
     textAlign: "center"
   },
   eventName: {
     color: "white",
-    fontSize: 15,
-    paddingRight: 135,
+    fontSize: 20,
+    paddingRight: 105,
     textAlign: "right"
   },
   eventLocation: {
     color: "white",
-    fontSize: 10,
+    fontSize: 15,
     textAlign: "right",
-    right: 135
+    right: 105
   },
   mapButton: {
     color: "lightblue",
@@ -163,15 +173,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5
   },
-  // eventAgeRange: {
-  //   color: "white",
-  //   fontSize: 20,
-  //   textAlign: "right",
-  //   backgroundColor: "black",
-  //   opacity: 0.7
-  // },
+  eventAgeRange: {
+    color: "white",
+    fontSize: 20,
+    opacity: 0.7
+  },
   eventPrice: {
     color: "white",
+    fontSize: 20,
     textAlign: "right"
   }
 });

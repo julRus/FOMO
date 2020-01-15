@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
 import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
+import IndependantMainPage from "./IndependantMainPage";
 
 export default function MainPage(props) {
   const {
@@ -12,6 +14,8 @@ export default function MainPage(props) {
     pickedGender,
     username
   } = props.navigation.state.params;
+
+  const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
 
   // console.log(props.navigation.state.params);
 
@@ -37,11 +41,32 @@ export default function MainPage(props) {
     navigator("MyMap", { skiddleEvents, enteredLocation });
   }
 
+  function independantEventsViewer(bool) {
+    setViewIndependantEvents(bool);
+  }
+
   return (
     <View style={styles.container}>
+      <IndependantMainPage
+        view={viewIndependantEvents}
+        navigator={navigator}
+        keywords={keywords}
+        enteredLocation={enteredLocation}
+        pickedAge={pickedAge}
+        pickedGender={pickedGender}
+        goToMap={goToMap}
+        independantEventsViewer={independantEventsViewer}
+      />
       <View style={styles.header}>
         <Text style={styles.title}>MAJOR EVENTS</Text>
-        <Text style={styles.underTitle}>Large Business Events</Text>
+        <View style={styles.underTitleButtons}>
+          <TouchableOpacity>
+            <Text style={styles.underTitle}>Large Business Events</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => independantEventsViewer(true)}>
+            <Text style={styles.underTitle}>Independant Events</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       {/* <View style={styles.subHeader}>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
@@ -81,7 +106,7 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    backgroundColor: "rgba(255, 204, 0, 1)",
     marginTop: "152%",
     width: "100%",
     position: "absolute"
@@ -94,14 +119,25 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     opacity: 0.7,
+    fontWeight: "300",
     textAlign: "center",
     borderColor: "black",
     borderBottomWidth: 0.2
   },
 
+  underTitleButtons: {
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+
   underTitle: {
     textAlign: "center",
-    opacity: 0.5
+    opacity: 0.5,
+    marginHorizontal: 20,
+    borderColor: "black",
+    borderRightWidth: 0.2,
+    right: 20,
+    width: "100%"
   },
 
   date: {
