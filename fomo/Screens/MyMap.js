@@ -39,12 +39,21 @@ export default function MyMap(props) {
         <MapView
           zoomEnabled={true}
           style={styles.map}
-          region={{
-            latitude: events[0].venue.latitude,
-            longitude: events[0].venue.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421
-          }}
+          region={
+            events[0].goingcount
+              ? {
+                  latitude: events[0].venue.latitude,
+                  longitude: events[0].venue.longitude,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421
+                }
+              : {
+                  latitude: 53.472101,
+                  longitude: -2.238568,
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421
+                }
+          }
           maxZoomLevel={50}
           minZoomLevel={13}
           onMapReady={() => {

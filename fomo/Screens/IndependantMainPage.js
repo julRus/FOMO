@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Modal } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  YellowBox
+} from "react-native";
 import EventList from "./Components/EventList";
 import IndependantEventList from "./Components/IndependantEventList";
 
 export default function IndependantMainPage(props) {
+  YellowBox.ignoreWarnings([
+    "Warning: Failed child context type: Invalid child context `virtualizedCell.cellKey` of type `number` supplied to `CellRenderer`, expected `string`"
+  ]);
+
   const {
     keywords,
     navigator,
