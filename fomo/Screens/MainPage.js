@@ -4,7 +4,7 @@ import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
 
 import IndependantMainPage from "./IndependantMainPage";
-import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
+import * as api from "../api";
 
 export default function MainPage(props) {
   const {
@@ -13,43 +13,33 @@ export default function MainPage(props) {
     enteredLocation,
     pickedAge,
     pickedGender,
-    enteredUsername,
-    username
+    enteredUsername
   } = props.navigation.state.params;
 
   const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
   const [userData, setUserData] = useState({});
 
-  let name = username;
-  // let userLocation;
-  if (enteredUsername) {
-    name = enteredUsername;
-  }
+  // console.log(props.navigation.state.params);
+
   useEffect(() => {
-    // console.log("Main Page Name: ", name);
-    // fetchUserByUsername(name)
-    //   .then(data => {
-    //     // console.log("Postcode: ", data.location);
-    //     // fetchPostcodeInformation(data.location).then(data => {
-    //     //   userLocation = data;
-    //     // });
-    console.log("entered username", username);
-    fetchUserByUsername(username)
+    api
+      .fetchUserByUsername(enteredUsername)
       .then(data => {
         setUserData(data);
+        console.log(data, "<<<<dat");
       })
       .catch(data => {
-        console.log("Catch data here", data);
+        console.log("DATA 2 HERE", data);
       });
   }, []);
 
   function goToSettings() {
-    navigator("SettingsPage", { username, enteredUsername });
+    navigator("SettingsPage", { username });
   }
 
   function goToMap(skiddleEvents) {
     // console.log(skiddleEvents[0]);
-    navigator("MyMap", { skiddleEvents, username, enteredUsername });
+    navigator("MyMap", { skiddleEvents, enteredLocation });
   }
 
   function independantEventsViewer(bool) {
@@ -89,16 +79,16 @@ export default function MainPage(props) {
       <EventList
         navigator={navigator}
         keywords={keywords}
-        username={name}
+        enteredLocation={enteredLocation}
         pickedAge={pickedAge}
         pickedGender={pickedGender}
         goToMap={goToMap}
         userData={userData}
       />
       <View style={styles.footer}>
-        <TouchableOpacity onPress={goToSettings}>
+        {/* <TouchableOpacity onPress={goToSettings}>
           <Text style={styles.settings}>settings</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );

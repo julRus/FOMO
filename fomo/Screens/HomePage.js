@@ -33,16 +33,14 @@ export default function HomeScreen(props) {
     fetchLoginToken(enteredUsername, enteredPassword)
       .then(data => {
         if (data.access_token) {
-          console.log("Token found");
           props.navigator("MainPage", {
-            username: enteredUsername,
+            enteredUsername,
             password: enteredPassword,
             navigator: props.navigator
           });
         }
       })
       .catch(() => {
-        console.log("Token not found");
         Alert.alert("Incorrect username and/or password");
       });
   };
