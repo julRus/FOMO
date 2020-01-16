@@ -7,11 +7,8 @@ import Home from "./Components/Home";
 import EventForm from "./Components/EventForm";
 import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";
-import Home from "./Components/Home"
-import BusinessPage from "./Components/BusinessPage";
-import ErrorDisplay from "./Components/ErrorDisplay";
 import Dashboard from "./Components/Dashboard";
-import EventForm from "./Components/EventForm"
+
 
 class App extends React.Component {
   state = {
@@ -31,7 +28,7 @@ class App extends React.Component {
     });
   }
 
-  getUser = (username, businessName, id, accessToken) => {
+  getUser = (accessToken, username, businessName, id) => {
     this.setState({
       currentUser: username,
       userId: id,
@@ -67,9 +64,9 @@ class App extends React.Component {
           />
           <BusinessPage
             business_name={businessName}
-            path={accessToken ? "business_account" : "/"}
+            path={accessToken ? "/business_account" : "/"}
           />
-          <Dashboard path="/dashboard" />
+          <Dashboard path={accessToken ? "/dashboard" : "/"} />
           {/* <User path="/User" />  */}
         </Router>
       </div>

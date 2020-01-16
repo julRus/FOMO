@@ -31,6 +31,7 @@ export default class LogIn extends React.Component {
       .logIn({ username, password })
       .then(response => {
         getUser(
+          response.access_token,
           response.details.username,
           response.details.business_id,
           response.details.business_name
