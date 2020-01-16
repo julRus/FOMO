@@ -19,7 +19,8 @@ export default function EventList(props) {
     pickedAge,
     pickedGender,
     enteredUsername,
-    username
+    username,
+    userData
   } = props;
 
   const [skiddleEvents, setSkiddleEvents] = useState([]);
@@ -33,28 +34,49 @@ export default function EventList(props) {
 
   useEffect(() => {
     console.log(name, "name");
-    api.fetchUserByUsername(name).then(data => {
-      api.fetchPostcodeInformation(data.location)
-      .then(data => {
-        console.log("longLatLocation: ", data);
-        api.fetchSkiddleEvents(data).then(data => {
-          const { results } = data;
-          const eventsByKeywords = keywords
-            ? results.filter(event => {
-                if (
-                  event.EventCode === keywords[0] ||
-                  event.EventCode === keywords[1] ||
-                  event.EventCode === keywords[2] ||
-                  event.EventCode === keywords[3]
-                ) {
-                  return event;
-                }
-              })
-            : results;
-          setSkiddleEvents(eventsByKeywords);
-          setIsLoading(false);
-        });
-      });
+    // api.fetchUserByUsername(name).then(data => {
+    //   api.fetchPostcodeInformation(data.location)
+    //   .then(data => {
+    //     console.log("longLatLocation: ", data);
+    //     api.fetchSkiddleEvents(data).then(data => {
+    //       const { results } = data;
+    //       const eventsByKeywords = keywords
+    //         ? results.filter(event => {
+    //             if (
+    //               event.EventCode === keywords[0] ||
+    //               event.EventCode === keywords[1] ||
+    //               event.EventCode === keywords[2] ||
+    //               event.EventCode === keywords[3]
+    //             ) {
+    //               return event;
+    //             }
+    //           })
+    //         : results;
+    //       setSkiddleEvents(eventsByKeywords);
+    //       setIsLoading(false);
+    //     });
+    //   });
+    api.fetchPostcodeInformation(userData.location).then(data => {
+      setLongLatLocation(data);
+      console.log(data);
+    });
+    api.fetchSkiddleEvents(longLatLocation).then(data => {
+      const { results } = data;
+      console.log(keywords);
+      const eventsByKeywords = keywords
+        ? results.filter(event => {
+            if (
+              event.EventCode === keywords[0] ||
+              event.EventCode === keywords[1] ||
+              event.EventCode === keywords[2] ||
+              event.EventCode === keywords[3]
+            ) {
+              return event;
+            }
+          })
+        : results;
+      setSkiddleEvents(eventsByKeywords);
+      setIsLoading(false);
     });
   }, []);
 
@@ -64,8 +86,8 @@ export default function EventList(props) {
       eventCode,
       keywords,
       enteredLocation,
-      pickedAge,
-      pickedGender,
+      pickedAge: userData.age,
+      pickedGender: userData.gender,
       event
     });
   }

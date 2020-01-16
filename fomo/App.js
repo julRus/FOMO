@@ -7,6 +7,7 @@ import HomeScreen from "./Screens/HomePage";
 import SignUp from "./Screens/SignUp";
 import MainPage from "./Screens/MainPage";
 import Event from "./Screens/Event";
+import IndependantEvent from "./Screens/IndependantEvent";
 import SettingsPage from "./Screens/SettingsPage";
 import MyMap from "./Screens/MyMap";
 
@@ -37,7 +38,8 @@ const RootStack = createStackNavigator(
     MainPage: MainPage,
     Event: Event,
     SettingsPage: SettingsPage,
-    MyMap: MyMap
+    MyMap: MyMap,
+    IndependantEvent: IndependantEvent
   },
   { headerMode: "none" }
 );

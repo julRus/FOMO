@@ -139,7 +139,6 @@ class Events extends Component {
                 <button onClick={() => this.removeEvent(event.id)}>
                   Delete
                 </button>
-                <button>Edit</button>
               </div>
             );
           })}

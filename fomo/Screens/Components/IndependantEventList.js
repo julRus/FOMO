@@ -10,6 +10,8 @@ import {
   Modal
 } from "react-native";
 import * as api from "../../api";
+import timeStampConverter from "../../timeStampConvereter";
+import dateSorter from "../../dateSorter";
 
 export default function IndependantEventList(props) {
   const {
@@ -17,7 +19,9 @@ export default function IndependantEventList(props) {
     navigator,
     enteredLocation,
     pickedAge,
-    pickedGender
+    pickedGender,
+    gotToEvent,
+    userData
   } = props;
 
   const [businessEvents, setBusinessEvents] = useState([]);
@@ -25,7 +29,7 @@ export default function IndependantEventList(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.fetchPostcodeInformation(enteredLocation).then(data => {
+    api.fetchPostcodeInformation(userData.location).then(data => {
       setLongLatLocation(data);
     });
     api.fetchBusinessEvents(longLatLocation).then(data => {
@@ -44,7 +48,9 @@ export default function IndependantEventList(props) {
           return event;
         }
       });
-      setBusinessEvents(eventsByKeywords);
+      const convertedEvents = timeStampConverter(eventsByKeywords);
+      const sortedEvents = dateSorter(convertedEvents);
+      setBusinessEvents(sortedEvents);
       setIsLoading(false);
     });
   }, []);
@@ -54,14 +60,15 @@ export default function IndependantEventList(props) {
   // }
 
   function viewEvent(id, eventCode) {
-    props.navigator("Event", {
+    navigator("IndependantEvent", {
       id,
       eventCode,
       keywords,
       enteredLocation,
-      pickedAge,
-      pickedGender
+      pickedAge: userData.age,
+      pickedGender: userData.gender
     });
+    gotToEvent(false);
   }
 
   if (isLoading)
@@ -81,7 +88,7 @@ export default function IndependantEventList(props) {
         renderItem={({ item }) => (
           <TouchableOpacity
             keyExtractor={item => item.id.toString()}
-            onPress={() => viewEvent(item.id, item.EventCode)}
+            onPress={() => viewEvent(item.id, item.event_type)}
           >
             <View style={styles.events} key={item.id}>
               <ImageBackground
@@ -104,6 +111,12 @@ export default function IndependantEventList(props) {
                 ></Image>
                 <View style={styles.eventInfo}>
                   <Text style={styles.eventDate}>
+                    {/* <Text style={styles.timeStamp}>
+                      {timeStampConverter(
+                        item.date,
+                        item.openingtimes.doorsopen
+                      )}
+                    </Text> */}
                     {new Date(item.date).toDateString()},{" "}
                     {item.openingtimes.doorsopen} -{" "}
                     {item.openingtimes.doorsclose}
@@ -182,5 +195,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     textAlign: "right"
+  },
+  timeStamp: {
+    color: "red",
+    fontSize: 0.1
   }
 });

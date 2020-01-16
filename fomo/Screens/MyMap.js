@@ -30,13 +30,13 @@ export default function MyMap(props) {
       blurRadius={2}
     >
       <View style={styles.mapContainer}>
-        <Button
+        {/* <Button
           onPress={() => {
             console.log("Start", enteredLocation, "End");
             // Linking.openURL("https://google.com");
           }}
           title="Press Me"
-        />
+        /> */}
         <MapView
           zoomEnabled={true}
           style={styles.map}
@@ -67,22 +67,15 @@ export default function MyMap(props) {
                   <MapView.Marker
                     pinColor={"rgba(196, 73, 7, 0.9)"}
                     title={event.eventname}
-                    coordinate={
-                      event.venue.latitude !== null
-                        ? {
-                            latitude: event.venue.latitude,
-                            longitude: event.venue.longitude
-                          }
-                        : {
-                            latitude: "56",
-                            longitude: "-4"
-                          }
-                    }
+                    coordinate={{
+                      latitude: +event.venue.latitude,
+                      longitude: +event.venue.longitude
+                    }}
                   >
                     <MapView.Callout
                       tooltip={true}
                       onPress={() => {
-                        Linking.openURL(event.link);
+                        Linking.openURL(event.link.toString());
                       }}
                       title="Press Me"
                     >

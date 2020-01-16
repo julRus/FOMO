@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
-import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
+
 import IndependantMainPage from "./IndependantMainPage";
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
 
 export default function MainPage(props) {
   const {
@@ -17,6 +18,7 @@ export default function MainPage(props) {
   } = props.navigation.state.params;
 
   const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
+  const [userData, setUserData] = useState({});
 
   let name = username;
   // let userLocation;
@@ -25,12 +27,16 @@ export default function MainPage(props) {
   }
   useEffect(() => {
     // console.log("Main Page Name: ", name);
-    fetchUserByUsername(name)
+    // fetchUserByUsername(name)
+    //   .then(data => {
+    //     // console.log("Postcode: ", data.location);
+    //     // fetchPostcodeInformation(data.location).then(data => {
+    //     //   userLocation = data;
+    //     // });
+    console.log("entered username", username);
+    fetchUserByUsername(username)
       .then(data => {
-        // console.log("Postcode: ", data.location);
-        // fetchPostcodeInformation(data.location).then(data => {
-        //   userLocation = data;
-        // });
+        setUserData(data);
       })
       .catch(data => {
         console.log("Catch data here", data);
@@ -61,6 +67,7 @@ export default function MainPage(props) {
         pickedGender={pickedGender}
         goToMap={goToMap}
         independantEventsViewer={independantEventsViewer}
+        userData={userData}
       />
       <View style={styles.header}>
         <Text style={styles.title}>MAJOR EVENTS</Text>
@@ -86,6 +93,7 @@ export default function MainPage(props) {
         pickedAge={pickedAge}
         pickedGender={pickedGender}
         goToMap={goToMap}
+        userData={userData}
       />
       <View style={styles.footer}>
         <TouchableOpacity onPress={goToSettings}>

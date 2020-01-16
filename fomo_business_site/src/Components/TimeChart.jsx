@@ -1,85 +1,117 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { VictorySharedEvents, VictoryBar, VictoryLabel, VictoryPie, VictoryChart, VictoryTheme } from "victory";
-import axios from "axios"
+import {
+  VictoryChart,
+  VictoryAxis,
+  VictoryLine,
+  VictoryBrushContainer,
+  VictoryZoomContainer
+} from "victory";
+import axios from "axios";
 
 const createTally = data => {
-  let genderTally = {Male: 0, Female:0, Other:0};
+  let timeTally = {};
   data.forEach(function(set) {
-    if (genderTally[set.sex]) {
-      genderTally[set.sex]++;
+    if (timeTally[set.time]) {
+      timeTally[set.time]++;
     } else {
-      genderTally[set.sex] = 1;
+      timeTally[set.time] = 1;
     }
-  })
-  return genderTally;
+  });
+  return timeTally;
 };
 
-
-class GenderChart extends Component {
- state = {
-   data: []
- }
-  
-componentDidMount() {
-this.getEventData()
-}
-
-componentDidUpdate(prevProps, prevState) {
- if (prevState.data.length !== this.state.data.length) {
-   this.getEventData()
- }
+let hours = [];
+let currentHour = new Date(2020, 1, 1).getHours();
+for (let i = currentHour; i < 24; i++) {
+  hours.push(i + ":00");
 }
 
 
+class TimeChart extends Component {
+  state = {
+    data: [],
+    zoomDomain: { x: [new Date(1990, 1, 1), new Date(2009, 1, 1)] }
+  };
 
-getEventData() {
-  return axios.get("https://fomo-api.herokuapp.com/event_history").then(({data}) => {
-  this.setState({data : data.event_history})
-  });
-}  
+  handleZoom(domain) {
+    this.setState({ zoomDomain: domain });
+  }
+
   render() {
-    const {data} = this.state
-    const test = createTally(data)
+    const { data } = this.props;
+    let test = createTally(data);
+    let dataSet = Object.keys(test)
+      .map(hour => {
+        let numHour = hour.replace(":", "");
+        return [numHour, hour]
+      })
+      .sort((a, b) => {
+        return a[0] - b[0];
+      })
+      .map(hour => {
+        return { a: hour[0], b: test[hour[1]]};
+      });
+    let zoomData = Object.keys(test)
+      .map(hour => {
+        let numHour = hour.replace(":", "");
+        return [numHour, hour];
+      })
+      .sort((a, b) => {
+        return a[0] - b[0];
+      })
+      .map(hour => {
+        return { key: hour[0], b: test[hour[1]] };
+      });
     return (
-      <div className="time-chart">
+      <div className="age-chart">
         <VictoryChart
-       theme={VictoryTheme.material}
-      domainPadding={{ x: 15 }}
->
-        <h3>A</h3>
-        <VictoryBar
-          style={{
-            data: { fill: "#c43a31" }
-          }}
-          events={[
-            {
-              target: "data",
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: "data",
-                      mutation: props => {
-                        const fill = props.style && props.style.fill;
-                        return fill === "black"
-                          ? null
-                          : { style: { fill: "black" } };
-                      }
-                    }
-                  ];
-                }
-              }
-            }
-          ]}
-          data={[
-            { x: "Female", y: test["Female"]},
-            { x: "Male", y: test["Male"]},
-            { x: "Other", y:test["Other"]}
-          ]}
-        />
+          width={600}
+          height={470}
+          scale={{ x: "time" }}
+          containerComponent={
+            <VictoryZoomContainer
+              zoomDimension="x"
+              zoomDomain={this.state.zoomDomain}
+              onZoomDomainChange={this.handleZoom.bind(this)}
+            />
+          }
+        >
+          <VictoryLine
+            style={{
+              data: { stroke: "tomato" }
+            }}
+            data={dataSet}
+            x="a"
+            y="b"
+          />
+        </VictoryChart>
+        <VictoryChart
+          padding={{ top: 0, left: 50, right: 50, bottom: 30 }}
+          width={600}
+          height={100}
+          scale={{ x: "time" }}
+          containerComponent={
+            <VictoryBrushContainer
+              brushDimension="x"
+              brushDomain={this.state.zoomDomain}
+              onBrushDomainChange={this.handleZoom.bind(this)}
+            />
+          }
+        >
+          <VictoryAxis tickFormat={x => new Date(x).getFullYear()} />
+          <VictoryLine
+            style={{
+              data: { stroke: "tomato" }
+            }}
+            data={zoomData}
+            x="key"
+            y="b"
+          />
         </VictoryChart>
       </div>
-    );}}
+    );
+  }
+}
 
-export default GenderChart;
+export default TimeChart;

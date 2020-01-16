@@ -1,5 +1,11 @@
 import axios from "axios";
 
+export const fetchUsers = () => {
+  return axios.get("https://fomo-api.herokuapp.com/users").then(({ data }) => {
+    return data.users;
+  });
+};
+
 export const fetchSkiddleEvents = (
   location = { latitude: 53.4804, longitude: -2.2446 }
 ) => {
@@ -108,8 +114,18 @@ export const patchUserByUsername = (user, body) => {
 };
 
 export const fetchBusinessEvents = () => {
-  return axios.get("https://fomo-api.herokuapp.com/events").then(({ data }) => {
-    console.log("fetchBusinessEvents", data);
-    return data;
-  });
+  return axios
+    .get("https://fomo-api.herokuapp.com/events")
+    .then(({ data: data }) => {
+      console.log(data);
+      return data;
+    });
+};
+
+export const fetchBusinessEventByEventId = id => {
+  return axios
+    .get(`https://fomo-api.herokuapp.com/events/event/${id}`)
+    .then(({ data }) => {
+      return data;
+    });
 };
