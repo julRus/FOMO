@@ -29,7 +29,7 @@ export default function IndependantEventList(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.fetchPostcodeInformation(enteredLocation).then(data => {
+    api.fetchPostcodeInformation(userData.location).then(data => {
       setLongLatLocation(data);
     });
     api.fetchBusinessEvents(longLatLocation).then(data => {

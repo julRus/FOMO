@@ -25,8 +25,9 @@ export default function EventList(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    api.fetchPostcodeInformation(enteredLocation).then(data => {
+    api.fetchPostcodeInformation(userData.location).then(data => {
       setLongLatLocation(data);
+      console.log(data);
     });
     api.fetchSkiddleEvents(longLatLocation).then(data => {
       const { results } = data;
