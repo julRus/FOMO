@@ -10,6 +10,8 @@ import {
   Modal
 } from "react-native";
 import * as api from "../../api";
+import timeStampConverter from "../../timeStampConvereter";
+import dateSorter from "../../dateSorter";
 
 export default function IndependantEventList(props) {
   const {
@@ -44,7 +46,9 @@ export default function IndependantEventList(props) {
           return event;
         }
       });
-      setBusinessEvents(eventsByKeywords);
+      const convertedEvents = timeStampConverter(eventsByKeywords);
+      const sortedEvents = dateSorter(convertedEvents);
+      setBusinessEvents(sortedEvents);
       setIsLoading(false);
     });
   }, []);
@@ -104,6 +108,12 @@ export default function IndependantEventList(props) {
                 ></Image>
                 <View style={styles.eventInfo}>
                   <Text style={styles.eventDate}>
+                    {/* <Text style={styles.timeStamp}>
+                      {timeStampConverter(
+                        item.date,
+                        item.openingtimes.doorsopen
+                      )}
+                    </Text> */}
                     {new Date(item.date).toDateString()},{" "}
                     {item.openingtimes.doorsopen} -{" "}
                     {item.openingtimes.doorsclose}
@@ -182,5 +192,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
     textAlign: "right"
+  },
+  timeStamp: {
+    color: "red",
+    fontSize: 0.1
   }
 });
