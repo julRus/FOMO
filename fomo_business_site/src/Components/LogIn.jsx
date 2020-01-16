@@ -8,7 +8,8 @@ export default class LogIn extends React.Component {
     username: "",
     password: "",
     err: null,
-    access_token: ""
+    access_token: "",
+    businessName: ""
   };
 
   componentDidUpdate() {

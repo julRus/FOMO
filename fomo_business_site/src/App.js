@@ -1,5 +1,5 @@
 import React from "react";
-import { Router } from "@reach/router";
+import { Router, navigate } from "@reach/router";
 import "./App.css";
 import NavBar from "./Components/NavBar";
 import Events from "./Components/Events";
@@ -8,65 +8,67 @@ import EventForm from "./Components/EventForm";
 import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";
 import Home from "./Components/Home"
+import BusinessPage from "./Components/BusinessPage";
+import ErrorDisplay from "./Components/ErrorDisplay";
 import Dashboard from "./Components/Dashboard";
+import EventForm from "./Components/EventForm"
 
 class App extends React.Component {
   state = {
     currentUser: "",
     userId: null,
-    business_name: ""
+    businessName: "",
+    accessToken: null
   };
 
   componentDidMount() {
-    this.setState({ currentUser: "", userId: null });
+    this.setState({
+      currentUser: "",
+      userId: null,
+      businessName: null || localStorage.busName,
+      accessToken: null || localStorage.token,
+      err: { msg: "please log in to view more" }
+    });
   }
-  getUser = (username, id, business_name) => {
+
+  getUser = (username, businessName, id, accessToken) => {
     this.setState({
       currentUser: username,
       userId: id,
-      business_name: business_name
+      businessName,
+      accessToken
     });
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("busName", businessName);
+  };
+
+  logOut = () => {
+    this.setState({ accessToken: null });
+    localStorage.removeItem("token");
+    localStorage.removeItem("busName");
+    navigate("/")
   };
 
   render() {
-    const { businessName, accessToken, err } = this.state;
+    const { businessName, accessToken, err , userId} = this.state;
     return (
       <div className="App">
-        <NavBar access={accessToken} logOut={this.logOut}/>
+        <NavBar access={accessToken} logOut={this.logOut} />
         <Router>
           <Home path="/" getUser={this.getUser} />
-          <Events path={accessToken ? "/events" : "/"} />
-          <EventForm path={accessToken ? "/events/newevent" : "/"} />
+          <Events
+            path={accessToken ? "/events" : "/"}
+            userId={userId}
+            business_name={businessName}
+          />
+          <EventForm
+            path={accessToken ? "/events/newevent" : "/"}
+            userId={userId}
+          />
           <BusinessPage
             business_name={businessName}
             path={accessToken ? "business_account" : "/"}
           />
-          <Dashboard path="/dashboard" />
-
-          {/* <Feedback path="/Data" /> */}
-  }
- 
-  componentDidMount () {
-    this.setState({ currentUser: "", userId: null });
-  }
-  getUser = (username, id, business_name) => {
-    this.setState({currentUser: username, userId: id, business_name: business_name})
-  }
-
-  
-  render () {
-    const {userId, business_name} = this.state
-    return (
-      <div className="App">
-        <NavBar />
-        <Router>
-          <Home path="/" getUser={this.getUser} />
-          <Events
-            path="/events"
-            userId={userId}
-            business_name={business_name}
-          />
-          {/* <EventForm path="/events/events" userId={userId} /> */}
           <Dashboard path="/dashboard" />
           {/* <User path="/User" />  */}
         </Router>
