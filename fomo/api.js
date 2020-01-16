@@ -1,5 +1,11 @@
 import axios from "axios";
 
+export const fetchUsers = () => {
+  return axios.get("https://fomo-api.herokuapp.com/users").then(({ data }) => {
+    return data.users;
+  });
+};
+
 export const fetchSkiddleEvents = (
   location = { latitude: 53.4804, longitude: -2.2446 }
 ) => {

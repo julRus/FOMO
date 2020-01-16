@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -13,10 +13,12 @@ import {
 } from "react-native";
 import axios from "axios";
 import Quiz from "./Components/Quiz";
+import * as api from "../api";
 
 export default function SignUpScreen(props) {
   const { navigator } = props.navigation.state.params;
 
+  const [users, setUsers] = useState([]);
   const [viewModal, setViewModal] = useState(false);
   const [enteredUsername, setEnteredUsername] = useState("");
   const [enteredEmail, setEnteredEmail] = useState("");
@@ -25,6 +27,12 @@ export default function SignUpScreen(props) {
   const [enteredLocation, setEnteredLocation] = useState("");
   const [pickedAge, setPickedAge] = useState("");
   const [pickedGender, setPickedGender] = useState("");
+
+  useEffect(() => {
+    api.fetchUsers().then(data => {
+      setUsers(data);
+    });
+  }, []);
 
   const handleSetUsername = enteredText => {
     setEnteredUsername(enteredText);
@@ -85,22 +93,32 @@ export default function SignUpScreen(props) {
   };
 
   const submitNewUser = () => {
-    if (enteredPassword !== enteredConfirmPassword) {
-      Alert.alert("You're Passwords do not match, please try again");
-      setEnteredPassword("");
-      setEnteredConfirmPassword("");
-    } else if (enteredUsername === "" || enteredLocation === "") {
-      Alert.alert(
-        `You have not filled in ALL the required feelds, please provide a ${
-          enteredUsername === "" ? "Username" : "Password"
-        }`
-      );
-    } else if (!enteredPassword.match(/[0-9, A-Z]/g)) {
-      Alert.alert(
-        "Password is too weak. Please use numbers, uppercase letters in your password."
-      );
+    let validate = undefined;
+    users.map(user => {
+      if (enteredUsername === user.username) {
+        validate = "This username is taken, please choose another";
+      }
+    });
+    if (validate) {
+      Alert.alert(validate);
     } else {
-      setViewModal(true);
+      if (enteredPassword !== enteredConfirmPassword) {
+        Alert.alert("You're Passwords do not match, please try again");
+        setEnteredPassword("");
+        setEnteredConfirmPassword("");
+      } else if (enteredUsername === "" || enteredLocation === "") {
+        Alert.alert(
+          `You have not filled in ALL the required feelds, please provide a ${
+            enteredUsername === "" ? "Username" : "Password"
+          }`
+        );
+      } else if (!enteredPassword.match(/[0-9, A-Z]/g)) {
+        Alert.alert(
+          "Password is too weak. Please use numbers, uppercase letters in your password."
+        );
+      } else {
+        setViewModal(true);
+      }
     }
   };
 
