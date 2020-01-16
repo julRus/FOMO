@@ -158,8 +158,8 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    backgroundColor: "black",
-    borderRadius: 10
+    top: -120,
+    margin: 10
   },
 
   buttonContainer: {
@@ -167,9 +167,9 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: "80%",
-    margin: 20,
-    alignSelf: "center",
+    width: "40%",
+    top: -100,
+    marginLeft: 15,
     position: "absolute"
   },
 
@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
 
   eventText: {
     color: "grey",
+    margin: 2,
     fontSize: 20
   },
 
@@ -215,11 +216,11 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    marginTop: "50%",
+    marginTop: "30%",
     alignSelf: "center",
     position: "absolute",
     // top: "20%",
-    height: "160%",
+    height: "170%",
     width: "130%"
   },
 
