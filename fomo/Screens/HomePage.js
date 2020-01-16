@@ -5,7 +5,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import { fetchLoginToken } from "../api";
 
@@ -51,7 +52,7 @@ export default function HomeScreen(props) {
 
   return (
     <View style={StyleSheet.container}>
-      <Text style={styles.logo}>FOMO</Text>
+      <Image source={require("../assets/logo.png")} style={styles.logo} />
       <Text style={styles.title}>Welcome Back</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -91,15 +92,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    color: "white",
-    fontSize: 40,
-    width: "80%",
-    marginTop: 10,
-    padding: "5%",
-    borderBottomColor: "white",
-    borderBottomWidth: 0.5,
-    textAlign: "center",
-    alignSelf: "center"
+    width: "40%",
+    height: "23%",
+    alignSelf: "center",
+    marginTop: 50
   },
 
   title: {
@@ -108,14 +104,16 @@ const styles = StyleSheet.create({
     fontWeight: "100",
     padding: 0,
     marginVertical: 20,
-    textAlign: "center"
+    alignSelf: "center",
+    textAlign: "center",
+    borderColor: "white",
+    borderTopWidth: 0.5,
+    width: "80%"
   },
 
   inputContainer: {
     width: "90%",
     paddingBottom: 50,
-    borderBottomColor: "white",
-    borderBottomWidth: 0.5,
     alignSelf: "center"
   },
 
