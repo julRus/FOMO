@@ -17,30 +17,15 @@ const createTally = data => {
 
 
 class Charts extends Component {
- state = {
-   data: []
- }
   
-componentDidMount() {
-this.getEventData()
-}
-
-componentDidUpdate(prevProps, prevState) {
- if (prevState.data.length !== this.state.data.length) {
-   this.getEventData()
- }
-}
-
-
-
-getEventData() {
-  return axios.get("https://fomo-api.herokuapp.com/event_history").then(({data}) => {
-  this.setState({data : data.event_history})
-  });
-}  
+  
   render() {
-    const {data} = this.state
+    const {data} = this.props
     const test = createTally(data)
+    let keys = Object.keys(test)
+    let dataSet = keys.map(key => {
+      return {x: key, y: test[key], label:key}
+    })
     return (
       <div className="age-chart">
         <svg viewBox="-50 -40 500 400">
@@ -87,14 +72,7 @@ getEventData() {
                   data: { width: 20 },
                   labels: { fontSize: 15 }
                 }}
-                data={[
-                  { x: "0-15", y: test["0-15"]  },
-                  { x: "16-25", y: test["16-25"]  },
-                  { x: "26-39", y: test["26-39"]  },
-                  { x: "40-65", y: test["40-65"] },
-                  { x: "66+", y: test["66+"] }
-                ]}
-                labels={["0-15", "16-25", "26-39", "40-65", "66+"]}
+                data={dataSet}
                 labelComponent={<VictoryLabel y={280} />}
               />
             </g>
@@ -104,13 +82,7 @@ getEventData() {
                 width={250}
                 standalone={false}
                 style={{ labels: { fontSize: 15, padding: 8 } }}
-                data={[
-                  { x: "0-15", y: Number ? test["0-15"] : 0 },
-                  { x: "16-25", y: Number ? test["16-25"] : 0 },
-                  { x: "26-39", y: Number ? test["26-39"] : 0 },
-                  { x: "40-65", y: Number ? test["40-65"] : 0 },
-                  { x: "66+", y: Number ? test["66+"] : 0 }
-                ]}
+                data={dataSet}
               />
             </g>
           </VictorySharedEvents>

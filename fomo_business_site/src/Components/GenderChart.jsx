@@ -4,7 +4,7 @@ import { VictorySharedEvents, VictoryBar, VictoryLabel, VictoryPie, VictoryChart
 import axios from "axios"
 
 const createTally = data => {
-  let genderTally = {Male: 0, Female:0, Other:0};
+  let genderTally = {male: 0, female:0, other:0};
   data.forEach(function(set) {
     if (genderTally[set.sex]) {
       genderTally[set.sex]++;
@@ -21,25 +21,8 @@ class GenderChart extends Component {
    data: []
  }
   
-componentDidMount() {
-this.getEventData()
-}
-
-componentDidUpdate(prevProps, prevState) {
- if (prevState.data.length !== this.state.data.length) {
-   this.getEventData()
- }
-}
-
-
-
-getEventData() {
-  return axios.get("https://fomo-api.herokuapp.com/event_history").then(({data}) => {
-  this.setState({data : data.event_history})
-  });
-}  
   render() {
-    const {data} = this.state
+    const {data} = this.props
     const test = createTally(data)
     return (
       <div className="age-chart">
@@ -73,9 +56,9 @@ getEventData() {
             }
           ]}
           data={[
-            { x: "Female", y: test["Female"]},
-            { x: "Male", y: test["Male"]},
-            { x: "Other", y:test["Other"]}
+            { x: "female", y: test["female"]},
+            { x: "male", y: test["male"]},
+            { x: "other", y:test["other"]}
           ]}
         />
         </VictoryChart>

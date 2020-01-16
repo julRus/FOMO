@@ -2,7 +2,6 @@ import React from "react";
 import * as api from "./Api";
 import ErrorDisplay from "./ErrorDisplay";
 
-
 export default class BusinessPage extends React.Component {
   state = {
     username: "",
@@ -47,25 +46,26 @@ export default class BusinessPage extends React.Component {
   handleUsernameChange = e => {
     e.preventDefault();
     const { business_name } = this.props;
-    const {username} = this.state;
+    const { username } = this.state;
     api
       .changeUsername(business_name, { username })
       .then(response => console.log(response))
       .catch(response => console.log(response));
   };
-  
+
   render() {
     const {
-    username,
-    passwordOne, 
-    passwordTwo,
-    businessName,
-    email,
-    address,
-    townCity,
-    postCode,
-    description,
-    err} = this.state
+      username,
+      passwordOne,
+      passwordTwo,
+      businessName,
+      email,
+      address,
+      townCity,
+      postCode,
+      description,
+      err
+    } = this.state;
     return (
       <div>
         <form onSubmit={this.handleUsernameChange}>
@@ -99,7 +99,6 @@ export default class BusinessPage extends React.Component {
           />
           {err && <ErrorDisplay error={err} />}
           <button type="submit">Change Password</button>
-          
         </form>
         <br />
         <form onSubmit={this.handleBusinessChange}>
