@@ -24,7 +24,7 @@ export default function EventList(props) {
   } = props;
 
   const [skiddleEvents, setSkiddleEvents] = useState([]);
-  // const [longLatLocation, setLongLatLocation] = useState(undefined);
+  const [longLatLocation, setLongLatLocation] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
   let name = username;
@@ -58,7 +58,6 @@ export default function EventList(props) {
     //   });
     api.fetchPostcodeInformation(userData.location).then(data => {
       setLongLatLocation(data);
-      console.log(data);
     });
     api.fetchSkiddleEvents(longLatLocation).then(data => {
       const { results } = data;
