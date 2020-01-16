@@ -3,6 +3,10 @@ import { Router, navigate } from "@reach/router";
 import "./App.css";
 import NavBar from "./Components/NavBar";
 import Events from "./Components/Events";
+import Home from "./Components/Home";
+import EventForm from "./Components/EventForm";
+import BusinessPage from "./Components/BusinessPage";
+import ErrorDisplay from "./Components/ErrorDisplay";
 import Home from "./Components/Home"
 import BusinessPage from "./Components/BusinessPage";
 import ErrorDisplay from "./Components/ErrorDisplay";

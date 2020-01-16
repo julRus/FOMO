@@ -1,16 +1,27 @@
 import axios from "axios";
 
 export const fetchSkiddleEvents = (
-  location = `latitude=53.4808&longitude=-2.2446`
+  location = { latitude: 53.4804, longitude: -2.2446 }
 ) => {
   return axios
     .get(
-      `https://www.skiddle.com/api/v1/events/search/?api_key=2c674154bb766482be163c00831f88c8&${location}&radius=5&description=1&order=date&limit=100`
+      `https://www.skiddle.com/api/v1/events/search/?api_key=2c674154bb766482be163c00831f88c8&latitude=${location.latitude}&longitude=${location.longitude}&radius=1&description=1&order=date&limit=100`
     )
     .then(({ data }) => {
       return data;
     })
     .catch(console.log("fetchSkiddleEvents"));
+};
+
+export const fetchPostcodeInformation = (postcode = "M30 7PG") => {
+  return axios
+    .get(`https://api.postcodes.io/postcodes/${postcode}`)
+    .then(({ data }) => {
+      return {
+        latitude: data.result.latitude,
+        longitude: data.result.longitude
+      };
+    });
 };
 
 export const fetchEventByEventId = id => {
@@ -54,7 +65,7 @@ export const postUser = () => {
     .catch(console.log("postUser"));
 };
 
-export const fetchUserDetails = username => {
+export const fetchUserByUsername = (username = "jessjelly") => {
   return axios
     .get(`https://fomo-api.herokuapp.com/users/${username}`)
     .then(({ data }) => {
@@ -63,18 +74,40 @@ export const fetchUserDetails = username => {
     .catch(console.log("fetchUserDetails"));
 };
 
-export const fetchEventsByType = (
-  option1,
-  location = `latitude=53.4808&longitude=-2.2446`
+export const postEventHistory = (
+  age,
+  gender,
+  eventCode,
+  eventLocation,
+  eventOpeningTime
 ) => {
-  console.log(option1, location);
-  const option_1 = option1.toUpperCase();
   return axios
-    .get(
-      `https://www.skiddle.com/api/v1/events/search/?api_key=2c674154bb766482be163c00831f88c8&${location}&radius=5&description=1&eventcode=${option_1}&order=date&limit=100`
-    )
-    .then(({ data }) => {
-      return data;
+    .post("https://fomo-api.herokuapp.com/event_history", {
+      age: age,
+      sex: gender,
+      event_type: eventCode,
+      location: eventLocation,
+      time: eventOpeningTime
     })
-    .catch(console.log("fetchEventsByType"));
+    .then(({ data }) => {
+      console.log(data);
+    });
+};
+
+export const patchUserByUsername = (user, body) => {
+  console.log(user);
+  axios
+    .patch(`https://fomo-api.herokuapp.com/users/${user}/username`, {
+      username: body
+    })
+    .then(({ data }) => {
+      console.log(data);
+    });
+};
+
+export const fetchBusinessEvents = () => {
+  return axios.get("https://fomo-api.herokuapp.com/events").then(({ data }) => {
+    console.log(data);
+    return data;
+  });
 };

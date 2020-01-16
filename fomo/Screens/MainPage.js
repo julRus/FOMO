@@ -1,25 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import Swiper from "react-native-swiper";
 import EventList from "./Components/EventList";
 
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
+import IndependantMainPage from "./IndependantMainPage";
+import { fetchUserByUsername } from "../api";
+import { fetchUserByUsername, fetchPostcodeInformation } from "../api";
+
 export default function MainPage(props) {
-  const { keywords, familyFriendly, navigator } = props.navigation.state.params;
+  const {
+    keywords,
+    navigator,
+    enteredLocation,
+    pickedAge,
+    pickedGender,
+    username
+  } = props.navigation.state.params;
+
+  const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
+
+  // console.log(props.navigation.state.params);
+
+  useEffect(() => {
+    console.log("entered username", username);
+    fetchUserByUsername(username)
+      .then(data => {
+        console.log("DATA HERE", data);
+      })
+      .catch(data => {
+        console.log("DATA 2 HERE", data);
+      });
+  }, []);
+
+  function goToSettings() {
+    navigator("SettingsPage", { username });
+  }
+
+  function goToMap(skiddleEvents) {
+    // console.log(skiddleEvents[0]);
+    navigator("MyMap", { skiddleEvents, enteredLocation });
+  }
+
+  function independantEventsViewer(bool) {
+    setViewIndependantEvents(bool);
+  }
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}></View>
+      <IndependantMainPage
+        view={viewIndependantEvents}
+        navigator={navigator}
+        keywords={keywords}
+        enteredLocation={enteredLocation}
+        pickedAge={pickedAge}
+        pickedGender={pickedGender}
+        goToMap={goToMap}
+        independantEventsViewer={independantEventsViewer}
+      />
+      <View style={styles.header}>
+        <Text style={styles.title}>MAJOR EVENTS</Text>
+        <View style={styles.underTitleButtons}>
+          <TouchableOpacity>
+            <Text style={styles.underTitle}>Large Business Events</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => independantEventsViewer(true)}>
+            <Text style={styles.underTitle}>Independant Events</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       {/* <View style={styles.subHeader}>
-        <Text style={styles.settings}>settings</Text>
         <Text style={styles.date}>{new Date().toDateString()}</Text>
         {/* <Text style={styles.changeLocation}>Change</Text> }
         <Text style={styles.location}>Manchester</Text>
       </View> */}
       {/* <Text style={styles.eventsTitle}>Events</Text> */}
       <EventList
-        keywords={keywords}
-        ageRange={familyFriendly}
         navigator={navigator}
+        keywords={keywords}
+        enteredLocation={enteredLocation}
+        pickedAge={pickedAge}
+        pickedGender={pickedGender}
+        goToMap={goToMap}
       />
-      {/* <Event view={viewEvent} id={eventId} /> */}
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={goToSettings}>
+          <Text style={styles.settings}>settings</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -29,19 +97,50 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     backgroundColor: "black",
-    paddingBottom: 60
+    paddingBottom: 60,
+    marginTop: 20
   },
+
+  header: {
+    backgroundColor: "rgba(255, 204, 0, 0.8)",
+    padding: 10
+  },
+
+  footer: {
+    backgroundColor: "rgba(255, 204, 0, 1)",
+    marginTop: "152%",
+    width: "100%",
+    position: "absolute"
+  },
+
   settings: {
-    color: "white",
     marginHorizontal: 10
   },
 
   title: {
-    color: "white",
     fontSize: 30,
     opacity: 0.7,
-    textAlign: "center"
+    fontWeight: "300",
+    textAlign: "center",
+    borderColor: "black",
+    borderBottomWidth: 0.2
   },
+
+  underTitleButtons: {
+    justifyContent: "center",
+    flexDirection: "row"
+  },
+
+  underTitle: {
+    textAlign: "center",
+    opacity: 0.5,
+    marginHorizontal: 20,
+    borderColor: "black",
+    borderRightWidth: 0.2,
+    right: 20,
+    width: "100%"
+  },
+
   date: {
     color: "white",
     borderWidth: 0.4,

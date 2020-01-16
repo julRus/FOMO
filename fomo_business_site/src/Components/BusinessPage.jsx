@@ -16,42 +16,27 @@ export default class BusinessPage extends React.Component {
     err: null
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
+  handleChange = e =>  {
+   const {name, value} = e.target
+   this.setState({[name]: value})
+  }
 
   handlePasswordChange = e => {
     e.preventDefault();
-    const { business_name } = this.props;
-    const { passwordOne, passwordTwo } = this.state;
-    if (passwordOne === passwordTwo) {
-      api
-        .changePassword(business_name, { password: passwordTwo })
-        .then(response => console.log(response))
-        .catch(response => console.log(response));
-    } else {
-      this.setState({ err: { msg: "Please ensure the both passwords match" } });
+    const {business_name} = this.props
+    const {passwordOne, passwordTwo} = this.state
+    if (passwordOne === passwordTwo){
+      api.changePassword(business_name, {password: passwordTwo}).then(response => console.log(response)).catch(response => console.log(response))
+    }else{
+      this.setState({err: {msg: "Please ensure the both passwords match"}})
     }
   };
 
   handleBusinessChange = e => {
     e.preventDefault();
     const { business_name } = this.props;
-    const {
-      businessName,
-      address,
-      description,
-      email,
-      postCode,
-      townCity
-    } = this.state;
-    const params = {
-      business_name: businessName,
-      address: address + " " + townCity + " " + " " + postCode,
-      email,
-      description
-    };
+    const {businessName, address, description, email, postCode, townCity} = this.state
+    const params = {business_name: businessName, address: address + " " + townCity + " " + " " + postCode, email, description}
     api
       .changeBusinessDetails(business_name, params)
       .then(response => console.log(response))

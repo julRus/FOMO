@@ -29,18 +29,21 @@ export default class LogIn extends React.Component {
 
     api
       .logIn({ username, password })
-      .then(({ details, access_token }) => {
-        console.log(details);
+      .then(response => {
         getUser(
-          details.username,
-          details.business_name,
-          details.business_id,
-          access_token
+          response.details.username,
+          response.details.business_id,
+          response.details.business_name
         );
-        this.setState({ username: "", password: "", err: null });
+        this.setState({
+          username: response.details.username,
+          password: "",
+          err: null,
+          access_token: response.access_token,
+          business_name: response.details.business_name
+        });
         navigate("/events");
       })
-
       .catch(response =>
         this.setState({
           err: { msg: "Your username and password don't match" }
