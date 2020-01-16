@@ -95,7 +95,7 @@ export default function IndependantEventList(props) {
                 style={{
                   width: "100%",
                   height: 100,
-                  opacity: 0.7
+                  opacity: 0.45
                 }}
                 source={{ uri: item.url }}
                 blurRadius={3}
@@ -109,7 +109,7 @@ export default function IndependantEventList(props) {
                   }}
                   source={{ uri: item.url }}
                 ></Image>
-                <View style={styles.eventInfo}>
+                <View>
                   <Text style={styles.eventDate}>
                     {/* <Text style={styles.timeStamp}>
                       {timeStampConverter(

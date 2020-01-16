@@ -9,7 +9,8 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 import axios from "axios";
 import Quiz from "./Components/Quiz";
@@ -140,77 +141,79 @@ export default function SignUpScreen(props) {
     >
       <Quiz view={viewModal} navigator={navigator} postUser={postUser} />
       <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
         <ScrollView style={styles.scrollView}>
           <View style={styles.viewContainer}>
-            <Text style={styles.logo}>FOMO</Text>
             <Text style={styles.title}>Create your account</Text>
             <Text style={styles.subTitle}>Username / Email</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter your username(REQ)"
-              value={enteredUsername}
-              onChangeText={handleSetUsername}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder="Enter your email"
-              value={enteredEmail}
-              onChangeText={handleSetEmail}
-            />
-            <Text style={styles.subTitle}>Password</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Password(REQ)"
-              value={enteredPassword}
-              onChangeText={handleSetPassword}
-              secureTextEntry={true}
-            />
-            <TextInput
-              style={styles.textInput}
-              placeholder="Re-Type Password(REQ)"
-              value={enteredConfirmPassword}
-              onChangeText={handleSetConfirmPassword}
-              secureTextEntry={true}
-            />
-          </View>
-          <View style={styles.viewContainer}>
-            <Text style={styles.subTitle}>Extra Details</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Postcode(REQ)"
-              value={enteredLocation}
-              onChangeText={handleSetLocation}
-              autoCapitalize="words"
-            />
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={pickedAge}
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                mode="dropdown"
-                onValueChange={handleSetPickedAge}
-              >
-                <Picker.Item label="Select your age range" value="" />
-                <Picker.Item label="Under 16 years" value="0-15" />
-                <Picker.Item label="16 - 25 years" value="16-25" />
-                <Picker.Item label="26 - 39 years" value="26-39" />
-                <Picker.Item label="40 - 65 years" value="40-65" />
-                <Picker.Item label="Over 65 years" value="66-99" />
-              </Picker>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Enter your username(REQ)"
+                value={enteredUsername}
+                onChangeText={handleSetUsername}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Enter your email"
+                value={enteredEmail}
+                onChangeText={handleSetEmail}
+              />
+              <Text style={styles.subTitle}>Password</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Password(REQ)"
+                value={enteredPassword}
+                onChangeText={handleSetPassword}
+                secureTextEntry={true}
+              />
+              <TextInput
+                style={styles.textInput}
+                placeholder="Re-Type Password(REQ)"
+                value={enteredConfirmPassword}
+                onChangeText={handleSetConfirmPassword}
+                secureTextEntry={true}
+              />
             </View>
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={pickedGender}
-                style={styles.picker}
-                itemStyle={styles.pickerItem}
-                mode="dropdown"
-                onValueChange={handleSetPickedGender}
-              >
-                <Picker.Item label="Select your gender" value="" />
-                <Picker.Item label="Male" value="male" />
-                <Picker.Item label="Female" value="female" />
-                <Picker.Item label="Other" value="other" />
-              </Picker>
+            <View style={styles.viewContainer}>
+              <Text style={styles.subTitle}>Extra Details</Text>
+              <TextInput
+                style={styles.textInput}
+                placeholder="Postcode(REQ)"
+                value={enteredLocation}
+                onChangeText={handleSetLocation}
+                autoCapitalize="words"
+              />
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={pickedAge}
+                  style={styles.picker}
+                  itemStyle={styles.pickerItem}
+                  mode="dropdown"
+                  onValueChange={handleSetPickedAge}
+                >
+                  <Picker.Item label="Select your age range" value="" />
+                  <Picker.Item label="Under 16 years" value="0-15" />
+                  <Picker.Item label="16 - 25 years" value="16-25" />
+                  <Picker.Item label="26 - 39 years" value="26-39" />
+                  <Picker.Item label="40 - 65 years" value="40-65" />
+                  <Picker.Item label="Over 65 years" value="66-99" />
+                </Picker>
+              </View>
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={pickedGender}
+                  style={styles.picker}
+                  itemStyle={styles.pickerItem}
+                  mode="dropdown"
+                  onValueChange={handleSetPickedGender}
+                >
+                  <Picker.Item label="Select your gender" value="" />
+                  <Picker.Item label="Male" value="male" />
+                  <Picker.Item label="Female" value="female" />
+                  <Picker.Item label="Other" value="other" />
+                </Picker>
+              </View>
             </View>
             <TouchableOpacity style={styles.buttonContainer}>
               <Text style={styles.button} onPress={submitNewUser}>
@@ -230,61 +233,64 @@ const styles = StyleSheet.create({
     paddingBottom: 100
   },
 
-  viewContainer: {
-    // backgroundColor: "orange"
-  },
+  viewContainer: {},
 
   logo: {
-    textAlign: "center",
+    width: "40%",
+    height: "23%",
     alignSelf: "center",
-    marginTop: "5%",
-    marginBottom: "5%",
-    width: "80%",
-    paddingBottom: "5%",
-    fontSize: 40,
-    color: "white",
-    borderBottomColor: "white",
-    borderBottomWidth: 0.5
-    // backgroundColor: "orange"
+    marginTop: 50
   },
 
   title: {
-    // marginTop: "10%",
-    // marginBottom: 20,
+    color: "white",
+    fontSize: 30,
+    fontWeight: "100",
+    padding: 0,
+    marginVertical: 20,
+    alignSelf: "center",
     textAlign: "center",
-    fontSize: 28,
-    color: "white"
-    // backgroundColor: "orange"
+    borderColor: "white",
+    borderTopWidth: 0.5,
+    width: "80%",
+    paddingTop: 20
   },
 
   subTitle: {
-    marginTop: "5%",
     textAlign: "center",
     fontSize: 16,
-    color: "white"
-    // backgroundColor: "orange"
+    color: "rgba(255, 204, 0, 0.8)"
+  },
+
+  inputContainer: {
+    width: "90%",
+    paddingBottom: 50,
+    alignSelf: "center"
   },
 
   textInput: {
-    margin: "5%",
-    alignSelf: "center",
     color: "white",
     fontSize: 15,
     padding: 5,
-    width: 200,
+    width: 260,
     textAlign: "center",
-    backgroundColor: "rgba(120, 120, 120, 0.6)",
+    backgroundColor: "rgba(180, 180, 180, 0.5)",
     borderColor: "rgba(75, 75, 75, 1)",
     borderWidth: 1,
-    borderRadius: 6
-    // backgroundColor: "orange"
+    borderRadius: 6,
+    margin: 10,
+    alignSelf: "center"
   },
 
   pickerContainer: {
-    margin: "2%",
-    alignSelf: "center",
-    width: "50%"
-    // backgroundColor: "orange"
+    color: "white",
+    width: 260,
+    backgroundColor: "rgba(180, 180, 180, 0.5)",
+    borderColor: "rgba(75, 75, 75, 1)",
+    borderWidth: 1,
+    borderRadius: 6,
+    margin: 10,
+    alignSelf: "center"
   },
 
   picker: {
@@ -300,7 +306,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    borderColor: "rgba(196, 73, 7, 0.9)",
+    borderColor: "rgba(255, 204, 0, 0.8)",
     borderWidth: 2,
     width: "30%",
     alignSelf: "center",

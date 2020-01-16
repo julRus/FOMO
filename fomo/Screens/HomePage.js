@@ -108,7 +108,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     borderColor: "white",
     borderTopWidth: 0.5,
-    width: "80%"
+    width: "80%",
+    paddingTop: 20
   },
 
   inputContainer: {
@@ -121,9 +122,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 15,
     padding: 5,
-    width: 200,
+    width: 260,
     textAlign: "center",
-    backgroundColor: "rgba(120, 120, 120, 0.6)",
+    backgroundColor: "rgba(180, 180, 180, 0.5)",
     borderColor: "rgba(75, 75, 75, 1)",
     borderWidth: 1,
     borderRadius: 6,
@@ -135,16 +136,18 @@ const styles = StyleSheet.create({
     color: "white",
     paddingHorizontal: 15,
     paddingVertical: 5,
+    width: "100%",
     justifyContent: "space-around",
     textAlign: "center"
   },
 
   buttonContainer: {
-    borderColor: "rgba(196, 73, 7, 0.9)",
+    borderColor: "rgba(255, 204, 0, 0.8)",
     borderWidth: 2,
-    width: "30%",
+    width: 100,
     alignSelf: "center",
     marginVertical: 10,
-    borderRadius: 5
+    borderRadius: 5,
+    marginBottom: -20
   }
 });
