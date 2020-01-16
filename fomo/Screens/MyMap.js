@@ -32,8 +32,7 @@ export default function MyMap(props) {
       <View style={styles.mapContainer}>
         {/* <Button
           onPress={() => {
-            console.log("Start", enteredLocation, "End");
-            // Linking.openURL("https://google.com");
+            console.log(events[0].venue.latitude);
           }}
           title="Press Me"
         /> */}
@@ -41,8 +40,8 @@ export default function MyMap(props) {
           zoomEnabled={true}
           style={styles.map}
           region={{
-            latitude: 53.472101,
-            longitude: -2.238568,
+            latitude: events[0].venue.latitude,
+            longitude: events[0].venue.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
