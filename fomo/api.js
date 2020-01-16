@@ -9,6 +9,7 @@ export const fetchUsers = () => {
 export const fetchSkiddleEvents = (
   location = { latitude: 53.4804, longitude: -2.2446 }
 ) => {
+  console.log("location", location);
   return axios
     .get(
       `https://www.skiddle.com/api/v1/events/search/?api_key=2c674154bb766482be163c00831f88c8&latitude=${location.latitude}&longitude=${location.longitude}&radius=1&description=1&order=date&limit=100`
@@ -23,6 +24,8 @@ export const fetchPostcodeInformation = (postcode = "M30 7PG") => {
   return axios
     .get(`https://api.postcodes.io/postcodes/${postcode}`)
     .then(({ data }) => {
+      console.log("Correct lat: ", data.result.latitude);
+      console.log("Correct long: ", data.result.longitude);
       return {
         latitude: data.result.latitude,
         longitude: data.result.longitude
@@ -76,8 +79,8 @@ export const fetchUserByUsername = (username = "jessjelly") => {
     .get(`https://fomo-api.herokuapp.com/users/${username}`)
     .then(({ data }) => {
       return data;
-    })
-    .catch(console.log("fetchUserDetails"));
+    });
+  // .catch(console.log("fetchUserDetails"));
 };
 
 export const postEventHistory = (
@@ -96,18 +99,17 @@ export const postEventHistory = (
       time: eventOpeningTime
     })
     .then(({ data }) => {
-      console.log(data);
+      console.log("postEventHistory", data);
     });
 };
 
 export const patchUserByUsername = (user, body) => {
-  console.log(user);
   axios
     .patch(`https://fomo-api.herokuapp.com/users/${user}/username`, {
       username: body
     })
     .then(({ data }) => {
-      console.log(data);
+      console.log("patchUserByUsername", data);
     });
 };
 

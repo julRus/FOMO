@@ -13,32 +13,43 @@ export default function MainPage(props) {
     enteredLocation,
     pickedAge,
     pickedGender,
+    enteredUsername,
     username
   } = props.navigation.state.params;
 
   const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
   const [userData, setUserData] = useState({});
 
-  // console.log(props.navigation.state.params);
-
+  let name = username;
+  // let userLocation;
+  if (enteredUsername) {
+    name = enteredUsername;
+  }
   useEffect(() => {
+    // console.log("Main Page Name: ", name);
+    // fetchUserByUsername(name)
+    //   .then(data => {
+    //     // console.log("Postcode: ", data.location);
+    //     // fetchPostcodeInformation(data.location).then(data => {
+    //     //   userLocation = data;
+    //     // });
     console.log("entered username", username);
     fetchUserByUsername(username)
       .then(data => {
         setUserData(data);
       })
       .catch(data => {
-        console.log("DATA 2 HERE", data);
+        console.log("Catch data here", data);
       });
   }, []);
 
   function goToSettings() {
-    navigator("SettingsPage", { username });
+    navigator("SettingsPage", { username, enteredUsername });
   }
 
   function goToMap(skiddleEvents) {
     // console.log(skiddleEvents[0]);
-    navigator("MyMap", { skiddleEvents, enteredLocation });
+    navigator("MyMap", { skiddleEvents, username, enteredUsername });
   }
 
   function independantEventsViewer(bool) {
@@ -78,7 +89,7 @@ export default function MainPage(props) {
       <EventList
         navigator={navigator}
         keywords={keywords}
-        enteredLocation={enteredLocation}
+        username={name}
         pickedAge={pickedAge}
         pickedGender={pickedGender}
         goToMap={goToMap}

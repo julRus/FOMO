@@ -15,16 +15,47 @@ export default function EventList(props) {
     keywords,
     navigator,
     enteredLocation,
+    userLocation,
     pickedAge,
     pickedGender,
+    enteredUsername,
+    username,
     userData
   } = props;
 
   const [skiddleEvents, setSkiddleEvents] = useState([]);
-  const [longLatLocation, setLongLatLocation] = useState(undefined);
+  // const [longLatLocation, setLongLatLocation] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
+  let name = username;
+  if (enteredUsername) {
+    name = enteredUsername;
+  }
+
   useEffect(() => {
+    console.log(name, "name");
+    // api.fetchUserByUsername(name).then(data => {
+    //   api.fetchPostcodeInformation(data.location)
+    //   .then(data => {
+    //     console.log("longLatLocation: ", data);
+    //     api.fetchSkiddleEvents(data).then(data => {
+    //       const { results } = data;
+    //       const eventsByKeywords = keywords
+    //         ? results.filter(event => {
+    //             if (
+    //               event.EventCode === keywords[0] ||
+    //               event.EventCode === keywords[1] ||
+    //               event.EventCode === keywords[2] ||
+    //               event.EventCode === keywords[3]
+    //             ) {
+    //               return event;
+    //             }
+    //           })
+    //         : results;
+    //       setSkiddleEvents(eventsByKeywords);
+    //       setIsLoading(false);
+    //     });
+    //   });
     api.fetchPostcodeInformation(userData.location).then(data => {
       setLongLatLocation(data);
       console.log(data);
@@ -48,10 +79,6 @@ export default function EventList(props) {
       setIsLoading(false);
     });
   }, []);
-
-  // function viewMap() {
-  //   props.navigator("MyMap", { skiddleEvents });
-  // }
 
   function viewEvent(id, eventCode, event) {
     props.navigator("Event", {
