@@ -164,8 +164,10 @@ const styles = StyleSheet.create({
   },
 
   textBackground: {
+    marginTop: "10%",
     backgroundColor: "black",
     paddingBottom: 1000,
+    top: -20,
     opacity: 0.7
   },
 
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    marginTop: "95%",
+    marginTop: "80%",
     alignSelf: "center",
     position: "absolute",
     height: "100%",

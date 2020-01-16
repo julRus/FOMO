@@ -176,16 +176,6 @@ const styles = StyleSheet.create({
     textAlign: "right",
     right: 105
   },
-  mapButton: {
-    color: "lightblue",
-    fontSize: 25,
-    textAlign: "center",
-    alignSelf: "center",
-    width: "99%",
-    borderColor: "lightblue",
-    borderWidth: 1,
-    borderRadius: 5
-  },
   eventAgeRange: {
     color: "white",
     fontSize: 20,
@@ -199,5 +189,14 @@ const styles = StyleSheet.create({
   timeStamp: {
     color: "red",
     fontSize: 0.1
+  },
+  mapButton: {
+    color: "black",
+    fontSize: 25,
+    textAlign: "center",
+    alignSelf: "center",
+    width: "100%",
+    backgroundColor: "rgba(255, 190, 0, 0.8)",
+    borderTopWidth: 0.2
   }
 });

@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    marginTop: "95%",
+    marginTop: "80%",
     alignSelf: "center",
     position: "absolute",
     // top: "20%",

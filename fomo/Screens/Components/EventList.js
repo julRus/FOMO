@@ -79,7 +79,7 @@ export default function EventList(props) {
   return (
     <View>
       <TouchableOpacity onPress={() => props.goToMap(skiddleEvents)}>
-        <Text style={styles.mapButton}>MAP</Text>
+        <Text style={styles.mapButton}>Map View</Text>
       </TouchableOpacity>
       <FlatList
         data={skiddleEvents}
@@ -160,14 +160,13 @@ const styles = StyleSheet.create({
     right: 135
   },
   mapButton: {
-    color: "lightblue",
+    color: "black",
     fontSize: 25,
     textAlign: "center",
     alignSelf: "center",
-    width: "99%",
-    borderColor: "lightblue",
-    borderWidth: 1,
-    borderRadius: 5
+    width: "100%",
+    backgroundColor: "rgba(255, 190, 0, 0.8)",
+    borderTopWidth: 0.2
   },
   // eventAgeRange: {
   //   color: "white",

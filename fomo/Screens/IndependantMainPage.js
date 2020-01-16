@@ -55,7 +55,7 @@ export default function IndependantMainPage(props) {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity>
-              <Text style={styles.underTitle}>Independant Events</Text>
+              <Text style={styles.underTitle2}>Independant Events</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -114,8 +114,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     opacity: 0.7,
+    width: "120%",
     fontWeight: "300",
     textAlign: "center",
+    alignSelf: "center",
     borderColor: "black",
     borderBottomWidth: 0.2
   },
@@ -129,8 +131,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.5,
     marginHorizontal: 20,
-    borderColor: "black",
     borderRightWidth: 0.2,
+    right: 20,
+    width: "100%"
+  },
+
+  underTitle2: {
+    textAlign: "center",
+    opacity: 0.5,
+    marginHorizontal: 20,
     right: 20,
     width: "100%"
   },
