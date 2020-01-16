@@ -66,9 +66,9 @@ export default function IndependantMainPage(props) {
           userData={userData}
         />
         <View style={styles.footer}>
-          <TouchableOpacity onPress={goToSettings}>
+          {/* <TouchableOpacity onPress={goToSettings}>
             <Text style={styles.settings}>settings</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </Modal>

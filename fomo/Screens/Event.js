@@ -26,6 +26,8 @@ export default function Event(props) {
     eventCode,
     enteredLocation,
     keywords,
+    age,
+    gender,
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
@@ -42,10 +44,12 @@ export default function Event(props) {
   }, []);
 
   function postEventHistory() {
+    const userAge = age ? age : pickedAge;
+    const userGender = gender ? gender : pickedGender;
     const eventLocation = `${eventDetails.venue.name}, ${eventDetails.venue.address}, ${eventDetails.venue.cityname}, ${eventDetails.venue.postcode}`;
     api.postEventHistory(
-      pickedAge,
-      pickedGender,
+      userAge,
+      userGender,
       eventCode,
       eventLocation,
       eventDetails.openingtimes.doorsopen

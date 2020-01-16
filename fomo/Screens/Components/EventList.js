@@ -61,8 +61,10 @@ export default function EventList(props) {
       eventCode,
       keywords,
       enteredLocation,
-      pickedAge: userData.age,
-      pickedGender: userData.gender,
+      age: userData.age,
+      pickedAge,
+      pickedGender,
+      gender: userData.gender,
       event
     });
   }
