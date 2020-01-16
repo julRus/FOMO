@@ -92,7 +92,7 @@ export default function EventList(props) {
               <ImageBackground
                 style={{
                   width: "100%",
-                  height: 100,
+                  height: 120,
                   opacity: 0.7
                 }}
                 source={{ uri: item.largeimageurl }}
@@ -100,8 +100,8 @@ export default function EventList(props) {
               >
                 <Image
                   style={{
-                    width: 100,
-                    height: 100,
+                    width: 120,
+                    height: 120,
                     alignSelf: "flex-end",
                     position: "absolute"
                   }}
@@ -144,18 +144,19 @@ const styles = StyleSheet.create({
   },
   eventDate: {
     color: "white",
-    fontSize: 10,
+    fontSize: 15,
+    paddingRight: 65,
     textAlign: "center"
   },
   eventName: {
     color: "white",
-    fontSize: 15,
+    fontSize: 20,
     paddingRight: 135,
     textAlign: "right"
   },
   eventLocation: {
     color: "white",
-    fontSize: 10,
+    fontSize: 15,
     textAlign: "right",
     right: 135
   },
@@ -165,18 +166,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     width: "100%",
-    backgroundColor: "rgba(255, 190, 0, 0.8)",
+    backgroundColor: "rgba(255, 205, 0, 0.8)",
     borderTopWidth: 0.2
   },
-  // eventAgeRange: {
-  //   color: "white",
-  //   fontSize: 20,
-  //   textAlign: "right",
-  //   backgroundColor: "black",
-  //   opacity: 0.7
-  // },
   eventPrice: {
     color: "white",
-    textAlign: "right"
+    textAlign: "left",
+    marginTop: 10,
+    fontSize: 15
   }
 });

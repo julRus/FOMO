@@ -44,7 +44,6 @@ export default function IndependantMainPage(props) {
     <Modal visible={props.view} animationType="fade">
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>INDEPENDANT EVENTS</Text>
           <View style={styles.underTitleButtons}>
             <TouchableOpacity>
               <Text
@@ -131,7 +130,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.5,
     marginHorizontal: 20,
-    borderRightWidth: 0.2,
     right: 20,
     width: "100%"
   },
@@ -141,7 +139,9 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     marginHorizontal: 20,
     right: 20,
-    width: "100%"
+    width: "120%",
+    borderBottomColor: "lightgreen",
+    borderBottomWidth: 3
   },
 
   date: {

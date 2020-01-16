@@ -229,10 +229,10 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    marginTop: "80%",
+    marginTop: "90%",
     alignSelf: "center",
     position: "absolute",
-    height: "100%",
+    height: "50%",
     width: "90%"
   },
 

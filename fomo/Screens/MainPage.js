@@ -60,7 +60,6 @@ export default function MainPage(props) {
         userData={userData}
       />
       <View style={styles.header}>
-        <Text style={styles.title}>MAJOR EVENTS</Text>
         <View style={styles.underTitleButtons}>
           <TouchableOpacity>
             <Text style={styles.underTitle}>Large Business Events</Text>
@@ -119,17 +118,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
 
-  title: {
-    fontSize: 30,
-    opacity: 0.7,
-    width: "120%",
-    fontWeight: "300",
-    textAlign: "center",
-    alignSelf: "center",
-    borderColor: "black",
-    borderBottomWidth: 0.2
-  },
-
   underTitleButtons: {
     justifyContent: "center",
     flexDirection: "row"
@@ -139,9 +127,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     opacity: 0.5,
     marginHorizontal: 20,
-    borderRightWidth: 0.2,
-    right: 20,
-    width: "100%"
+    // borderRightWidth: 3,
+    borderColor: "lightgreen",
+    borderBottomWidth: 3,
+    right: 60,
+    width: "120%"
   },
 
   underTitle2: {
