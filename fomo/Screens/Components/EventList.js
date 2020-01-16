@@ -16,7 +16,8 @@ export default function EventList(props) {
     navigator,
     enteredLocation,
     pickedAge,
-    pickedGender
+    pickedGender,
+    userData
   } = props;
 
   const [skiddleEvents, setSkiddleEvents] = useState([]);
@@ -57,8 +58,8 @@ export default function EventList(props) {
       eventCode,
       keywords,
       enteredLocation,
-      pickedAge,
-      pickedGender,
+      pickedAge: userData.age,
+      pickedGender: userData.gender,
       event
     });
   }

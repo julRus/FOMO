@@ -17,6 +17,7 @@ export default function MainPage(props) {
   } = props.navigation.state.params;
 
   const [viewIndependantEvents, setViewIndependantEvents] = useState(false);
+  const [userData, setUserData] = useState({});
 
   // console.log(props.navigation.state.params);
 
@@ -24,7 +25,7 @@ export default function MainPage(props) {
     console.log("entered username", username);
     fetchUserByUsername(username)
       .then(data => {
-        console.log("DATA HERE", data);
+        setUserData(data);
       })
       .catch(data => {
         console.log("DATA 2 HERE", data);
@@ -55,6 +56,7 @@ export default function MainPage(props) {
         pickedGender={pickedGender}
         goToMap={goToMap}
         independantEventsViewer={independantEventsViewer}
+        userData={userData}
       />
       <View style={styles.header}>
         <Text style={styles.title}>MAJOR EVENTS</Text>
@@ -80,6 +82,7 @@ export default function MainPage(props) {
         pickedAge={pickedAge}
         pickedGender={pickedGender}
         goToMap={goToMap}
+        userData={userData}
       />
       <View style={styles.footer}>
         <TouchableOpacity onPress={goToSettings}>

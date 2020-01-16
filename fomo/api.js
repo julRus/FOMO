@@ -106,8 +106,18 @@ export const patchUserByUsername = (user, body) => {
 };
 
 export const fetchBusinessEvents = () => {
-  return axios.get("https://fomo-api.herokuapp.com/events").then(({ data }) => {
-    console.log(data);
-    return data;
-  });
+  return axios
+    .get("https://fomo-api.herokuapp.com/events")
+    .then(({ data: data }) => {
+      console.log(data);
+      return data;
+    });
+};
+
+export const fetchBusinessEventByEventId = id => {
+  return axios
+    .get(`https://fomo-api.herokuapp.com/events/event/${id}`)
+    .then(({ data }) => {
+      return data;
+    });
 };

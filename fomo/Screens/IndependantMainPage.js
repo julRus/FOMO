@@ -11,7 +11,8 @@ export default function IndependantMainPage(props) {
     enteredLocation,
     pickedAge,
     pickedGender,
-    independantEventsViewer
+    independantEventsViewer,
+    userData
   } = props;
 
   function goToSettings() {
@@ -22,6 +23,10 @@ export default function IndependantMainPage(props) {
     // console.log(skiddleEvents[0]);
     navigator("MyMap", { businessEvents });
     independantEventsViewer(false);
+  }
+
+  function gotToEvent(bool) {
+    independantEventsViewer(bool);
   }
 
   return (
@@ -57,6 +62,8 @@ export default function IndependantMainPage(props) {
           pickedAge={pickedAge}
           pickedGender={pickedGender}
           goToMap={goToMap}
+          gotToEvent={gotToEvent}
+          userData={userData}
         />
         <View style={styles.footer}>
           <TouchableOpacity onPress={goToSettings}>

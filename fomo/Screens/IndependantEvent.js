@@ -16,7 +16,7 @@ import Delta from "./Components/Delta";
 
 import * as api from "../api";
 
-export default function Event(props) {
+export default function IndependantEvent(props) {
   const [eventDetails, setEventDetails] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -29,14 +29,10 @@ export default function Event(props) {
     pickedAge,
     pickedGender
   } = props.navigation.state.params;
-  let price = event.entryprice.split("£").join("");
-  if (price === "") {
-    price = "0.00";
-  }
 
   useEffect(() => {
-    api.fetchEventByEventId(id).then(data => {
-      setEventDetails(data.results);
+    api.fetchBusinessEventByEventId(id).then(data => {
+      setEventDetails(data);
       setLoading(false);
     });
   }, []);
@@ -44,6 +40,13 @@ export default function Event(props) {
   function postEventHistory() {
     const eventLocation = `${eventDetails.venue.name}, ${eventDetails.venue.address}, ${eventDetails.venue.cityname}, ${eventDetails.venue.postcode}`;
     api.postEventHistory(
+      pickedAge,
+      pickedGender,
+      eventCode,
+      eventLocation,
+      eventDetails.openingtimes.doorsopen
+    );
+    console.log(
       pickedAge,
       pickedGender,
       eventCode,
@@ -66,108 +69,10 @@ export default function Event(props) {
             width: "100%",
             height: "100%"
           }}
-          source={{ uri: eventDetails.largeimageurl }}
+          source={{ uri: eventDetails.url }}
           blurRadius={2}
         >
-          <TouchableOpacity style={styles.button} onPress={postEventHistory}>
-            <View>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={postEventHistory}
-              >
-                <Text style={styles.buttonText}>Attend</Text>
-              </TouchableOpacity>
-
-              <Text style={{ ...styles.date, ...styles.eventText }}>
-                {new Date(eventDetails.date).toDateString()},{" "}
-                {eventDetails.openingtimes.doorsopen} -
-                {eventDetails.openingtimes.doorsclose}
-              </Text>
-              <Text style={{ ...styles.minAge, ...styles.eventText }}>
-                Age Range: {eventDetails.MinAge}+
-              </Text>
-              <Text style={styles.eventText}>Entry Price: £{price}</Text>
-              <Text></Text>
-              <Text style={styles.eventHeading}>Details:</Text>
-              <Text style={styles.eventText2}>{eventDetails.description}</Text>
-              <Text style={styles.eventHeading}>Address:</Text>
-              <Text style={styles.eventText2}>{event.venue.address}</Text>
-              {/* <Button
-              onPress={() => {
-                console.log(event);
-                // Linking.openURL("https://google.com");
-              }}
-              title="Press Me"
-            /> */}
-              <MapView
-                zoomEnabled={true}
-                style={styles.map}
-                region={{
-                  latitude: event.venue.latitude,
-                  longitude: event.venue.longitude,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
-                }}
-                maxZoomLevel={50}
-                minZoomLevel={13}
-                onMapReady={() => {
-                  PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-                  ).then(granted => {
-                    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                      console.log("Location permission granted");
-                    } else {
-                      alert("Location permission denied");
-                    }
-                  });
-                }}
-              >
-                <View>
-                  <MapView.Marker
-                    pinColor={"rgba(196, 73, 7, 0.9)"}
-                    title={event.eventname}
-                    coordinate={{
-                      latitude: event.venue.latitude,
-                      longitude: event.venue.longitude
-                    }}
-                  >
-                    <MapView.Callout
-                      tooltip={true}
-                      onPress={() => {
-                        Linking.openURL(event.link);
-                      }}
-                      title="Press Me"
-                    >
-                      <TouchableOpacity>
-                        <View style={styles.markerBubble}>
-                          <Text style={styles.markerText}>
-                            {event.eventname}
-                          </Text>
-                          <Text style={styles.markerLink}>Go to page</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </MapView.Callout>
-                  </MapView.Marker>
-                </View>
-              </MapView>
-            </View>
-            {/* <TouchableOpacity style={styles.button} onPress={postEventHistory}>
-            <Text style={styles.buttonText}>Attend</Text>
-          </TouchableOpacity>
-
-          <Text style={{ ...styles.date, ...styles.eventText }}>
-            {new Date(eventDetails.date).toDateString()},{" "}
-            {eventDetails.openingtimes.doorsopen} -
-            {eventDetails.openingtimes.doorsclose}
-          </Text>
-          <Text style={{ ...styles.minAge, ...styles.eventText }}>
-            Age Range: {eventDetails.MinAge}+
-          </Text>
-          <Text style={{ ...styles.description, ...styles.eventText }}>
-            {eventDetails.description}
-          </Text>
-
-          <View>
+          <View style={styles.textBackground}>
             <TouchableOpacity style={styles.button} onPress={postEventHistory}>
               <Text style={styles.buttonText}>Attend</Text>
             </TouchableOpacity>
@@ -178,14 +83,14 @@ export default function Event(props) {
               {eventDetails.openingtimes.doorsclose}
             </Text>
             <Text style={{ ...styles.minAge, ...styles.eventText }}>
-              Age Range: {eventDetails.MinAge}+
+              Age Range: {eventDetails.Minage}+
             </Text>
-            <Text style={styles.eventText}>Entry Price: £{price}</Text>
+            <Text style={styles.eventText}>Entry Price: £</Text>
             <Text></Text>
             <Text style={styles.eventHeading}>Details:</Text>
             <Text style={styles.eventText2}>{eventDetails.description}</Text>
             <Text style={styles.eventHeading}>Address:</Text>
-            <Text style={styles.eventText2}>{event.venue.address}</Text>
+            <Text style={styles.eventText2}>{eventDetails.venue.name}</Text>
             {/* <Button
               onPress={() => {
                 console.log(event);
@@ -193,12 +98,12 @@ export default function Event(props) {
               }}
               title="Press Me"
             /> */}
-            {/* <MapView
+            <MapView
               zoomEnabled={true}
               style={styles.map}
               region={{
-                latitude: event.venue.latitude,
-                longitude: event.venue.longitude,
+                latitude: +eventDetails.venue.latitude,
+                longitude: +eventDetails.venue.longitude,
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421
               }}
@@ -219,22 +124,24 @@ export default function Event(props) {
               <View>
                 <MapView.Marker
                   pinColor={"rgba(196, 73, 7, 0.9)"}
-                  title={event.eventname}
+                  title={eventDetails.event_name}
                   coordinate={{
-                    latitude: event.venue.latitude,
-                    longitude: event.venue.longitude
+                    latitude: +eventDetails.venue.latitude,
+                    longitude: +eventDetails.venue.longitude
                   }}
                 >
                   <MapView.Callout
                     tooltip={true}
                     onPress={() => {
-                      Linking.openURL(event.link);
+                      Linking.openURL(eventDetails.url);
                     }}
                     title="Press Me"
-                  > */}
-            {/* <TouchableOpacity>
+                  >
+                    <TouchableOpacity>
                       <View style={styles.markerBubble}>
-                        <Text style={styles.markerText}>{event.eventname}</Text>
+                        <Text style={styles.markerText}>
+                          {eventDetails.event_name}
+                        </Text>
                         <Text style={styles.markerLink}>Go to page</Text>
                       </View>
                     </TouchableOpacity>
@@ -243,8 +150,6 @@ export default function Event(props) {
               </View>
             </MapView>
           </View>
-          </Text>  */}
-          </TouchableOpacity>
         </ImageBackground>
       </View>
     );
@@ -256,6 +161,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "black"
+  },
+
+  textBackground: {
+    backgroundColor: "black",
+    paddingBottom: 1000,
+    opacity: 0.7
   },
 
   loading: {

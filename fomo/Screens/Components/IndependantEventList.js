@@ -19,7 +19,9 @@ export default function IndependantEventList(props) {
     navigator,
     enteredLocation,
     pickedAge,
-    pickedGender
+    pickedGender,
+    gotToEvent,
+    userData
   } = props;
 
   const [businessEvents, setBusinessEvents] = useState([]);
@@ -58,14 +60,15 @@ export default function IndependantEventList(props) {
   // }
 
   function viewEvent(id, eventCode) {
-    props.navigator("Event", {
+    navigator("IndependantEvent", {
       id,
       eventCode,
       keywords,
       enteredLocation,
-      pickedAge,
-      pickedGender
+      pickedAge: userData.age,
+      pickedGender: userData.gender
     });
+    gotToEvent(false);
   }
 
   if (isLoading)
@@ -85,7 +88,7 @@ export default function IndependantEventList(props) {
         renderItem={({ item }) => (
           <TouchableOpacity
             keyExtractor={item => item.id.toString()}
-            onPress={() => viewEvent(item.id, item.EventCode)}
+            onPress={() => viewEvent(item.id, item.event_type)}
           >
             <View style={styles.events} key={item.id}>
               <ImageBackground
