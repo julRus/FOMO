@@ -166,8 +166,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     width: "100%",
-    backgroundColor: "rgba(255, 205, 0, 0.8)",
-    borderTopWidth: 0.2
+    backgroundColor: "rgba(255, 205, 0, 0.8)"
   },
   eventPrice: {
     color: "white",

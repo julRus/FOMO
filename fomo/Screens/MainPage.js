@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
 
   header: {
     backgroundColor: "rgba(255, 204, 0, 0.8)",
-    padding: 10
+    padding: 10,
+    marginTop: 10
   },
 
   footer: {

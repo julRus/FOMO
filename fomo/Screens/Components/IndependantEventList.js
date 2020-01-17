@@ -81,7 +81,7 @@ export default function IndependantEventList(props) {
   return (
     <View>
       <TouchableOpacity onPress={() => props.goToMap(businessEvents)}>
-        <Text style={styles.mapButton}>MAP</Text>
+        <Text style={styles.mapButton}>Map View</Text>
       </TouchableOpacity>
       <FlatList
         data={businessEvents}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   eventDate: {
     color: "white",
     fontSize: 15,
-    paddingRight: 65,
+    paddingRight: 105,
     textAlign: "center"
   },
   eventName: {
@@ -197,7 +197,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignSelf: "center",
     width: "100%",
-    backgroundColor: "rgba(255, 205, 0, 0.8)",
-    marginTop: -0
+    backgroundColor: "rgba(255, 205, 0, 0.8)"
   }
 });

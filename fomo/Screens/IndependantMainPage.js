@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 
   header: {
     backgroundColor: "rgba(255, 204, 0, 0.8)",
+    marginTop: 10,
     padding: 10
   },
 
