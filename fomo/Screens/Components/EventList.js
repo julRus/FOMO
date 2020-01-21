@@ -105,7 +105,7 @@ export default function EventList(props) {
                     alignSelf: "flex-end",
                     position: "absolute"
                   }}
-                  source={{ uri: item.imageurl }}
+                  source={{ uri: item.largeimageurl }}
                 ></Image>
                 <Text style={styles.eventDate}>
                   {new Date(item.date).toDateString()},{" "}
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   eventDate: {
     color: "white",
     fontSize: 15,
-    paddingRight: 65,
+    paddingRight: 105,
     textAlign: "center"
   },
   eventName: {

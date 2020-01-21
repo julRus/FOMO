@@ -12,6 +12,7 @@ import {
   Linking
 } from "react-native";
 import MapView from "react-native-maps";
+import Delta from "./Components/Delta";
 
 export default function MyMap(props) {
   const { skiddleEvents, businessEvents } = props.navigation.state.params;
@@ -39,14 +40,22 @@ export default function MyMap(props) {
         <MapView
           zoomEnabled={true}
           style={styles.map}
-          region={
+          initialRegion={
             events[0].goingcount
-              ? {
-                  latitude: events[0].venue.latitude,
-                  longitude: events[0].venue.longitude,
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
-                }
+              ? DeltaCalc([
+                  {
+                    latitude: events[0].venue.latitude,
+                    longitude: events[0].venue.longitude
+                  },
+                  {
+                    latitude: events[0].venue.latitude,
+                    longitude: events[0].venue.longitude
+                  },
+                  {
+                    latitude: events[0].venue.latitude,
+                    longitude: events[0].venue.longitude
+                  }
+                ])
               : {
                   latitude: 53.472101,
                   longitude: -2.238568,
@@ -55,7 +64,7 @@ export default function MyMap(props) {
                 }
           }
           maxZoomLevel={50}
-          minZoomLevel={13}
+          // minZoomLevel={103}
           onMapReady={() => {
             PermissionsAndroid.request(
               PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
